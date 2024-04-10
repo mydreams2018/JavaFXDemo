@@ -1,6 +1,8 @@
 package com.example.javafxdemo;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,10 +23,16 @@ public class HelloApplication extends Application {
 //        stage.setX(300);
         stage.setScene(scene);
         //StageStyle.DECORATED, StageStyle.UNDECORATED, StageStyle.TRANSPARENT,StageStyle.UTILITY
-        stage.initStyle(StageStyle.UTILITY);
-        System.out.println(stage.getMaxWidth());
+        stage.initStyle(StageStyle.DECORATED);
+        System.out.println(Thread.currentThread());
         //触发事什
         stage.setOnCloseRequest(System.out::println);
+        stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println(observable);
+            }
+        });
         System.out.println(stage.getFullScreenExitHint());
         //事件过滤  MouseEvent KeyEvent
         stage.addEventFilter(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {
