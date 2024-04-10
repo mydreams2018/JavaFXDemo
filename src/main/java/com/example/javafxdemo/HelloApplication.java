@@ -1,9 +1,6 @@
 package com.example.javafxdemo;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -27,27 +24,12 @@ public class HelloApplication extends Application {
         System.out.println(Thread.currentThread());
         //触发事什
         stage.setOnCloseRequest(System.out::println);
-        stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                System.out.println(observable);
-            }
-        });
+        stage.focusedProperty().addListener((observable, oldValue, newValue) -> System.out.println(observable));
         System.out.println(stage.getFullScreenExitHint());
         //事件过滤  MouseEvent KeyEvent
-        stage.addEventFilter(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                System.out.println("addEventFilter");
-            }
-        });
+        stage.addEventFilter(KeyEvent.KEY_PRESSED, event -> System.out.println("addEventFilter"));
         //添加事件
-        stage.addEventHandler(KeyEvent.KEY_PRESSED,new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                System.out.println("addEventHandler:"+event.getCode());
-            }
-        });
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> System.out.println("addEventHandler:" + event.getCode()));
         stage.show();
     }
 
