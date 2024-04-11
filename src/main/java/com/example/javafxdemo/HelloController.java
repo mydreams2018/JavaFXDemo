@@ -10,5 +10,6 @@ public class HelloController {
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
+        welcomeText.setOpacity(0.6);
     }
 }
