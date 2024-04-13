@@ -23,7 +23,10 @@ public class MenuBarDemo extends Application {
 
         MenuBar menuBar = new MenuBar();
         Menu file = new Menu("File");
-        file.getItems().add(new MenuItem("New", new ImageView("https://www.kungreat.cn/favicon.ico")));
+        ImageView imageView = new ImageView("https://www.kungreat.cn/favicon.ico");
+        imageView.setFitHeight(18);
+        imageView.setFitWidth(18);
+        file.getItems().add(new MenuItem("New", imageView));
         MenuItem open = new MenuItem("open");
         //菜单快捷键
         open.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN));
