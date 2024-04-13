@@ -2,6 +2,7 @@ package com.example.javafxdemo;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -21,14 +22,14 @@ public class TabPaneDemo extends Application {
         BorderPane root = new BorderPane();
 
         TabPane tabPane = new TabPane();
-        tabPane.setPrefHeight(300);
-
+        tabPane.setMinHeight(300);
+        //面板的方向
+        tabPane.setSide(Side.TOP);
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(10);
         hBox.setBackground(Background.fill(Paint.valueOf("green")));
         hBox.getChildren().addAll(new Button("one"), new Button("two"), new Button("three"));
-
 
         HBox hBox1 = new HBox();
         hBox1.setAlignment(Pos.CENTER);
@@ -52,6 +53,7 @@ public class TabPaneDemo extends Application {
         tabPane.getTabs().addAll(tab, tab2);
         //默认选中子索引
         tabPane.getSelectionModel().clearAndSelect(0);
+        //不生效 初始化好以后是全屏的
         BorderPane.setAlignment(tabPane, Pos.TOP_CENTER);
         root.setTop(tabPane);
         Scene scene = new Scene(root);
@@ -62,8 +64,12 @@ public class TabPaneDemo extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.show();
 
-        System.out.println(root.getWidth());
-        System.out.println(tabPane.getWidth());
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println(root.getWidth());
+            System.out.println(tabPane.getWidth());
+            System.out.println(hBox.getWidth());
+        });
     }
 
     public static void main(String[] args) {
