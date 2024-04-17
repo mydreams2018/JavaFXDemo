@@ -26,16 +26,18 @@ public class ButtonDrawDemo extends Application {
         );*/
 
         button.setOnMousePressed(event -> {
-            if (!isMove) {
-                isMove = true;
-            }
-            if (event.getButton() == MouseButton.PRIMARY && initX == 0 && initY == 0) {
-                System.out.println("init press");
-                Button source = (Button) event.getSource();
-                initX = (int) event.getScreenX();
-                initY = (int) event.getScreenY();
-                layoutX = (int) source.getLayoutX();
-                layoutY = (int) source.getLayoutY();
+            if (event.getButton() == MouseButton.PRIMARY) {
+                if (!isMove) {
+                    isMove = true;
+                }
+                if (initX == 0 && initY == 0) {
+                    System.out.println("init press");
+                    Button source = (Button) event.getSource();
+                    initX = (int) event.getScreenX();
+                    initY = (int) event.getScreenY();
+                    layoutX = (int) source.getLayoutX();
+                    layoutY = (int) source.getLayoutY();
+                }
             }
         });
 
