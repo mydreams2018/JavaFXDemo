@@ -1,8 +1,12 @@
 package com.example.javafxdemo;
 
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -26,6 +30,8 @@ public class ListViewDemo extends Application {
         listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         listView.setEditable(false);
         listView.setFixedCellSize(30);
+        //强制刷新列表
+        listView.refresh();
         //默认选中第一个元素
         listView.getSelectionModel().select(1);
 //        listView.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID,new CornerRadii(10),new BorderWidths(2))));
@@ -56,6 +62,24 @@ public class ListViewDemo extends Application {
         primaryStage.setTitle("Dragboard Demo");
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.show();
+
+        //可观查列表
+        ObservableList<ListData> observableList =  listView.getItems();
+        observableList.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                //每次改变后最新的列表
+                System.out.println(observable);
+            }
+        });
+        observableList.addListener(new ListChangeListener<ListData>() {
+            @Override
+            public void onChanged(Change<? extends ListData> c) {
+                //可以知道事件触发的详情 新增 修改 删除
+                System.out.println(c);
+            }
+        });
+        observableList.add(new ListData("kun",158));
     }
 
     public static void main(String[] args) {

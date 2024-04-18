@@ -58,12 +58,8 @@ public class ButtonDrawDemo extends Application {
                 int moveX = (int) event.getScreenX() - initX;
                 int moveY = (int) event.getScreenY() - initY;
                 System.out.println(moveX + ":" + moveY);
-
                 source.setLayoutX(layoutX + moveX);
                 source.setLayoutY(layoutY + moveY);
-
-//                source.setLayoutX(source.getLayoutX() + moveX);Location error
-//                source.setLayoutY(source.getLayoutY() + moveY);Location error
             }
         });
         root.getChildren().add(button);
