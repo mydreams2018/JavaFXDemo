@@ -1,0 +1,26 @@
+.my-rect {
+    -fx-fill: yellow;
+    -fx-stroke: green;
+    -fx-stroke-width: 5;
+    -fx-stroke-dash-array: 12 2 4 2;
+    -fx-stroke-dash-offset: 6;
+    -fx-stroke-line-cap: square;
+}
+#my-rect {
+     -fx-fill: yellow;
+     -fx-stroke: green;
+     -fx-stroke-width: 5;
+     -fx-stroke-dash-array: 12 2 4 2;
+     -fx-stroke-dash-offset: 6;
+     -fx-stroke-line-cap: butt;
+ }
+
+
+/*
+disabled	    applies when the disabled variable is true
+focused	        applies when the focused variable is true
+focus-visible	applies when the focusVisible variable is true
+focus-within	applies when the focusWithin variable is true
+hover	        applies when the hover variable is true
+pressed	        applies when the pressed variable is true
+*/

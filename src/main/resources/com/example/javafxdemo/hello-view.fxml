@@ -5,13 +5,28 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="TOP_LEFT" spacing="20" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.shape.Rectangle?>
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.javafxdemo.HelloController">
+
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <Label fx:id="welcomeText" text="welcome"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-    <Button text="Hello2" />
+    <Button text="Hello!" fx:id="but1" prefWidth="200" onAction="#onHelloButtonClick"/>
+    <Button text="Hello2" prefWidth="${but1.prefWidth}" />
+
+    <fx:define>
+        <ToggleGroup fx:id="myToggleGroup"/>
+    </fx:define>
+    <children>
+        <RadioButton text="A" toggleGroup="$myToggleGroup"/>
+        <RadioButton text="B" toggleGroup="$myToggleGroup"/>
+        <RadioButton text="C" toggleGroup="$myToggleGroup"/>
+    </children>
+
+    <Rectangle width="100" height="100" styleClass="my-rect"> </Rectangle>
 </VBox>

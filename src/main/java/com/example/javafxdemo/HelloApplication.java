@@ -16,23 +16,23 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+
 /*
-* Platform.exit() 导致JavaFX应用程序终止
-* Platform.runLater();UI线程 和默认调用start(Stage stage)方法的线程一样
-*                       不要执行大的任务
-*
-* 设置这个关闭窗口时不会结束程序 要使用Platform.exit() 才会结束程序
-* Platform.setImplicitExit(false);
-*
-* 是否支持一些特性 比如是否支持3D ...
-* Platform.isSupported(ConditionalFeature.SCENE3D);
-* */
+ * Platform.exit() 导致JavaFX应用程序终止
+ * Platform.runLater();UI线程 和默认调用start(Stage stage)方法的线程一样
+ *                       不要执行大的任务
+ *
+ * 设置这个关闭窗口时不会结束程序 要使用Platform.exit() 才会结束程序
+ * Platform.setImplicitExit(false);
+ *
+ * 是否支持一些特性 比如是否支持3D ...
+ * Platform.isSupported(ConditionalFeature.SCENE3D);
+ * */
 public class HelloApplication extends Application {
 
     @Override
-    public void init() throws Exception {
-        Platform.isSupported(ConditionalFeature.SCENE3D);
-        super.init();
+    public void init() {
+        System.out.println(Platform.isSupported(ConditionalFeature.SCENE3D));
     }
 
     @Override
@@ -44,6 +44,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        //加载css文件
+        scene.getStylesheets().add(HelloApplication.class.getResource("hello-view.css").toExternalForm());
         stage.setTitle("Hello!");
 
         VBox vbox = new VBox();
@@ -87,6 +89,12 @@ public class HelloApplication extends Application {
 
             }
         });
+
+        //根据ID查找子组件
+        System.out.println("id=" + scene.lookup("#welcomeText"));
+        HelloController controller = fxmlLoader.getController();
+        System.out.println(controller);
+
         stage.setAlwaysOnTop(false);//永远在顶层
         stage.setFullScreen(false);//设置全屏
         stage.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("favicon.ico")));
