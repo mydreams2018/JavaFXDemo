@@ -5,7 +5,9 @@ module com.example.javafxdemo {
 
     opens com.example.javafxdemo to javafx.fxml;
     opens com.example.javafxdemo.table to javafx.fxml;
+    opens com.example.javafxdemo.chart to javafx.fxml;
     exports com.example.javafxdemo;
     exports com.example.javafxdemo.table;
     exports com.example.javafxdemo.move;
+    exports com.example.javafxdemo.chart;
 }

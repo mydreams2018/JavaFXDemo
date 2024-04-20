@@ -1,0 +1,16 @@
+.hoverScale:hover {
+    -fx-scale-x:1.06;
+    -fx-scale-y:1.06;
+}
+.hoverScaleX:hover {
+    -fx-scale-x:1.06;
+}
+
+/*
+disabled	    applies when the disabled variable is true
+focused	        applies when the focused variable is true
+focus-visible	applies when the focusVisible variable is true
+focus-within	applies when the focusWithin variable is true
+hover	        applies when the hover variable is true
+pressed	        applies when the pressed variable is true
+*/
