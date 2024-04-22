@@ -32,7 +32,7 @@ public class CalculateDemo extends Application {
         group.getChildren().addAll(r,r1);
 
         /*
-        *  intersect相并  在最终操作之前 输入形状的区域被转换为其各自最顶部父节点的父坐标空间
+        *  intersect相交  在最终操作之前 输入形状的区域被转换为其各自最顶部父节点的父坐标空间
         *              计算二个图形相交部分返回新图形   生成的形状将仅包含两个输入形状中包含的区域
         *  subtract排除 在最终操作之前 输入形状的区域被转换为其各自最顶部父节点的父坐标空间
         *               返回通过从第一个形状中减去指定的第二个形状而创建的新形状
