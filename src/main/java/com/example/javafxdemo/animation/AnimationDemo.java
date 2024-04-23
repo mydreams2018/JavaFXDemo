@@ -18,7 +18,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /*
-* 提供一组类以简化基于过渡的动画
+*  时间线 提供一组类以简化基于过渡的动画
 * 它提供了一个简单的框架 用于将动画合并到内部时间线上 它还提供了高水平构造以构成多个动画的效果
     autoReverse 定义此动画是否在交替循环上反转方向
     currentRate 只读变量 用于指示正在播放动画的当前方向/速度
@@ -110,7 +110,7 @@ public class AnimationDemo extends Application {
         primaryStage.setScene(scene);
         primaryStage.setWidth(800);
         primaryStage.setHeight(800);
-        primaryStage.setTitle("TabPane Demo");
+        primaryStage.setTitle("Transition Demo");
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.show();
 

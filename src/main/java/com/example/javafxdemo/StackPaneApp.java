@@ -19,7 +19,7 @@ public class StackPaneApp extends Application {
                 new Circle(40, Color.RED),
                 new Button("Hello StackPane")
         );
-        pane.setAlignment(Pos.CENTER_LEFT);
+        pane.setAlignment(Pos.BOTTOM_CENTER);
         stage.setScene(new Scene(pane, 300, 300));
         stage.show();
     }

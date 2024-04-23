@@ -122,6 +122,8 @@ public class BoxDemo extends Application {
         perspectiveCamera.setFieldOfView(30);
         //指定该摄像头在眼睛坐标空间中的近夹平面的距离  未绘制接近眼睛的物体 nearClip 指定为大于零的值  小于或等于零的值被视为非常小的正数 默认0.1
         perspectiveCamera.setNearClip(0.3);
+        //远景图默认100
+        perspectiveCamera.setFarClip(100.0);
         scene.setCamera(perspectiveCamera);
         primaryStage.setTitle("3D 矩形 Demo");
         primaryStage.setScene(scene);

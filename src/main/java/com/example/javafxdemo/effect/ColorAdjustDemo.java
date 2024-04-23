@@ -29,7 +29,7 @@ public class ColorAdjustDemo extends Application {
 
         root.getChildren().add(imageView);
         Scene scene = new Scene(root);
-        primaryStage.setTitle("DisplacementMapDemo");
+        primaryStage.setTitle("ColorAdjustDemo");
         primaryStage.setScene(scene);
         primaryStage.setWidth(800);
         primaryStage.setHeight(800);

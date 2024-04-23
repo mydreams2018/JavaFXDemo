@@ -1,9 +1,11 @@
 package com.example.javafxdemo.effect;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.effect.DisplacementMap;
 import javafx.scene.effect.FloatMap;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -32,14 +34,15 @@ public class DisplacementMapDemo extends Application {
         /* 此效果不会调整输入事件的坐标或度量节点上的包含的任何方法
          * */
         DisplacementMap displacementMap = new DisplacementMap();
+        //数据
         displacementMap.setMapData(floatMap);
         //一半可见 0~1
-//        displacementMap.setOffsetX(0.5);
+        displacementMap.setOffsetX(0.5);
 //        displacementMap.setOffsetY(0.5);
         //将 FloatMap 中的所有 x 坐标偏移值相乘的比例因子
 //        displacementMap.setScaleX(0.5);
         //自动补全不可见的区域 相当不可见的区域拼接
-        displacementMap.setWrap(false);
+        displacementMap.setWrap(true);
 
         System.out.println(displacementMap.isWrap());
         Text text = new Text();
@@ -47,6 +50,16 @@ public class DisplacementMapDemo extends Application {
         text.setFill(Color.web("0x3b596d"));
         text.setFont(Font.font(null, FontWeight.BOLD, 38));
         text.setEffect(displacementMap);
+        text.setPickOnBounds(true);
+        text.setStroke(Color.GREEN);
+        text.setStrokeWidth(2);
+
+        text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("setOnMouseClicked");
+            }
+        });
 
         root.getChildren().add(text);
         Scene scene = new Scene(root);
