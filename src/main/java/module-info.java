@@ -16,4 +16,5 @@ module com.example.javafxdemo {
     exports com.example.javafxdemo.color;
     exports com.example.javafxdemo.effect;
     exports com.example.javafxdemo.games;
+    exports com.example.javafxdemo.games.three;
 }
