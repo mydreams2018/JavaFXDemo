@@ -4,6 +4,7 @@ module com.example.javafxdemo {
     requires javafx.swing;
     requires javafx.web;
     requires javafx.graphics;
+    requires javafx.media;
 
     opens com.example.javafxdemo to javafx.fxml;
     opens com.example.javafxdemo.table to javafx.fxml;
@@ -18,4 +19,5 @@ module com.example.javafxdemo {
     exports com.example.javafxdemo.games;
     exports com.example.javafxdemo.games.three;
     exports com.example.javafxdemo.animation;
+    exports com.example.javafxdemo.media;
 }

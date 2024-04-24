@@ -19,7 +19,7 @@ public class DisplacementMapDemo extends Application {
     public void start(Stage primaryStage) throws Exception {
         HBox root = new HBox();
 
-        final int width = 220;
+        final int width = 100;
         final int height = 100;
         FloatMap floatMap = new FloatMap();
         floatMap.setWidth(width);
@@ -31,10 +31,11 @@ public class DisplacementMapDemo extends Application {
                 floatMap.setSamples(i, j, 0.0f, (float) v);
             }
         }
-        /* 此效果不会调整输入事件的坐标或度量节点上的包含的任何方法
+        /* 此效果不会调整输入事件的坐标  或度量节点上的包含的任何方法
+           不改变原组件的位置 可以用在重叠组件 做一些轮播切换的效果
          * */
         DisplacementMap displacementMap = new DisplacementMap();
-        //数据
+        //数据效果 字体会产生一些偏移的效果
         displacementMap.setMapData(floatMap);
         //一半可见 0~1
         displacementMap.setOffsetX(0.5);
@@ -42,7 +43,7 @@ public class DisplacementMapDemo extends Application {
         //将 FloatMap 中的所有 x 坐标偏移值相乘的比例因子
 //        displacementMap.setScaleX(0.5);
         //自动补全不可见的区域 相当不可见的区域拼接
-        displacementMap.setWrap(true);
+        displacementMap.setWrap(false);
 
         System.out.println(displacementMap.isWrap());
         Text text = new Text();
@@ -53,6 +54,8 @@ public class DisplacementMapDemo extends Application {
         text.setPickOnBounds(true);
         text.setStroke(Color.GREEN);
         text.setStrokeWidth(2);
+
+        text.setTranslateX(100);
 
         text.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
