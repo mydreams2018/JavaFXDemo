@@ -80,7 +80,7 @@ public class HelloApplication extends Application {
         });
         /*
         stage.resizableProperty()
-        *
+        * stage.setIconified(boolean value)  最小化窗口
         * */
         //X位置变化监听
         stage.xProperty().addListener(new ChangeListener<Number>() {

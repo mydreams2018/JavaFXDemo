@@ -11,6 +11,8 @@
 
     <properties>
         <javafx.version>21</javafx.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -43,9 +45,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
+            <!--      这里要注意本机配置的JDK版本环境变量要一致          -->
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -58,9 +62,10 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.example.javafxdemo/com.example.javafxdemo.HelloApplication</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
+                            <launcher>start</launcher>
+                            <compress>2</compress>
+                            <jlinkZipName>outputZip</jlinkZipName>
+                            <jlinkImageName>output</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
