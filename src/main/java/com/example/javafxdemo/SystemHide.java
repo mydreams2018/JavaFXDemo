@@ -17,13 +17,6 @@ public class SystemHide extends Application {
      * */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        /*
-         * 如果此属性为true则当最后一个窗口关闭时 JavaFX运行时将隐式关闭 JavaFX启动器将调用该应用程序stop
-         *  并终止JavaFX应用程序线程 如果此属性为false 则即使在最后一个窗口关闭后 应用程序也将继续正常运行
-         *   直到应用程序调用exit为止
-         * */
-        Platform.setImplicitExit(false);
-
         HBox root = new HBox();
         Button buttonA = new Button("hide system");
         Button buttonB = new Button("restart system");
@@ -44,28 +37,15 @@ public class SystemHide extends Application {
 
     public void addSystemTray(Stage primaryStage) {
         if (SystemTray.isSupported()) {
+            /*
+             * 如果此属性为true则当最后一个窗口关闭时 JavaFX运行时将隐式关闭 JavaFX启动器将调用该应用程序stop
+             *  并终止JavaFX应用程序线程 如果此属性为false 则即使在最后一个窗口关闭后 应用程序也将继续正常运行
+             *   直到应用程序调用exit为止
+             * */
+            Platform.setImplicitExit(false);
             SystemTray tray = SystemTray.getSystemTray();
             Image image = Toolkit.getDefaultToolkit().getImage("favicon.ico");
-            ActionListener listener = e -> {
-                if ("cancel".equals(e.getActionCommand())) {
-                    TrayIcon[] trayIcons = tray.getTrayIcons();
-                    for (TrayIcon trayIcon : trayIcons) {
-                        tray.remove(trayIcon);
-                    }
-                    Platform.exit();
-                } else if ("recovery".equals(e.getActionCommand())) {
-                    if (!primaryStage.isShowing()) {
-                        Platform.runLater(() -> primaryStage.show());
-                    }
-                }
-            };
-            PopupMenu popup = new PopupMenu();
-            MenuItem defaultItem = new MenuItem(" cancel ");
-            MenuItem reStart = new MenuItem(" recovery ");
-            reStart.addActionListener(listener);
-            defaultItem.addActionListener(listener);
-            popup.add(defaultItem);
-            popup.add(reStart);
+            PopupMenu popup = getPopupMenu(primaryStage, tray);
             TrayIcon trayIcon = new TrayIcon(image, "Tray Demo", popup);
             try {
                 tray.add(trayIcon);
@@ -73,6 +53,30 @@ public class SystemHide extends Application {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static PopupMenu getPopupMenu(Stage primaryStage, SystemTray tray) {
+        ActionListener listener = e -> {
+            if ("cancel".equals(e.getActionCommand())) {
+                TrayIcon[] trayIcons = tray.getTrayIcons();
+                for (TrayIcon trayIcon : trayIcons) {
+                    tray.remove(trayIcon);
+                }
+                Platform.exit();
+            } else if ("recovery".equals(e.getActionCommand())) {
+                if (!primaryStage.isShowing()) {
+                    Platform.runLater(primaryStage::show);
+                }
+            }
+        };
+        PopupMenu popup = new PopupMenu();
+        MenuItem defaultItem = new MenuItem("cancel");
+        MenuItem reStart = new MenuItem("recovery");
+        reStart.addActionListener(listener);
+        defaultItem.addActionListener(listener);
+        popup.add(defaultItem);
+        popup.add(reStart);
+        return popup;
     }
 
     public static void main(String[] args) {
