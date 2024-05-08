@@ -39,14 +39,15 @@ public class CanvasDemo extends Application {
     public void start(Stage primaryStage) throws Exception {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root);
-        snapshotParameters.setFill(Color.GREEN);
-
+        snapshotParameters.setFill(Color.color(0,0,0,0.1));
+        gc.setFill(Color.GREEN);
         Image image = new Image(HelloApplication.class.getResourceAsStream("720w.png"));
         ImageView imageView = new ImageView(image);
 
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                //snapshotParameters 填充色彩不能为0透明度 有些情况下会倒置画板不刷新 可以用0.1 透明度就行
                 gc.drawImage(imageView.snapshot(snapshotParameters, null), 101, 0);
                 System.out.println("ddddd");
             }
@@ -55,15 +56,15 @@ public class CanvasDemo extends Application {
         //类似透明度
         FadeTransition ft = new FadeTransition(Duration.millis(300), imageView);
         ft.setFromValue(1.0);
-        ft.setToValue(0.0);
+        ft.setToValue(0.1);
         ft.setCycleCount(Animation.INDEFINITE);
         ft.setAutoReverse(true);
 
 
         HBox hbox = new HBox();
         root.setBackground(Background.fill(Color.GREEN));
+        hbox.setBackground(Background.fill(Color.GREEN));
         hbox.prefWidthProperty().bind(primaryStage.widthProperty());
-        hbox.getChildren().add(imageView);
         root.setCenter(canvas);
         root.setTop(hbox);
         primaryStage.setTitle("游戏画布");
