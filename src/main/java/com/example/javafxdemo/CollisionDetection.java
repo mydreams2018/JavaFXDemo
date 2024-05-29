@@ -63,7 +63,7 @@ public class CollisionDetection {
 
     public static boolean isCollision(Node mainNode, Node otherNode) {
         int[] mutualPoints = findMutualPoints(mainNode, otherNode);
-        return checkRotateCollision(mutualPoints, mainNode) && checkRotateCollision(mutualPoints, otherNode);
+        return checkRotateCollision(mutualPoints, otherNode);
     }
 
     private static boolean checkRotateCollision(int[] mutualPoints, Node mainNode) {
