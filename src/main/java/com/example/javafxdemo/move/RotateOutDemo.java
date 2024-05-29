@@ -1,10 +1,12 @@
 package com.example.javafxdemo.move;
 
+import com.example.javafxdemo.CollisionDetection;
 import javafx.application.Application;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -36,18 +38,28 @@ public class RotateOutDemo extends Application {
             hbox.setLayoutY(boundsInLocal.getMinY());
             hbox.setPrefWidth(boundsInLocal.getWidth());
             hbox.setPrefHeight(boundsInLocal.getHeight());
-
-            System.out.println(rectangle.getLayoutBounds());
-            System.out.println(rectangle.getBoundsInLocal());
-            System.out.println(boundsInLocal);
+//            System.out.println(rectangle.getLayoutBounds());
+//            System.out.println(rectangle.getBoundsInLocal());
+//            System.out.println(boundsInLocal);
             //包含旋转后放大的区域 [此XY坐标点是否有子元素]
 //            System.out.println(root.contains(198, 198));
         });
 
         hbox.setOnMouseClicked(event -> System.out.println(event.getY()));
-
         root.getChildren().addAll(rectangle, button, hbox);
         Scene scene = new Scene(root);
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.W) {
+                button.setLayoutY(button.getLayoutY() - 1);
+            } else if (event.getCode() == KeyCode.S) {
+                button.setLayoutY(button.getLayoutY() + 1);
+            } else if (event.getCode() == KeyCode.D) {
+                button.setLayoutX(button.getLayoutX() + 1);
+            } else if (event.getCode() == KeyCode.A) {
+                button.setLayoutX(button.getLayoutX() - 1);
+            }
+            System.out.println(CollisionDetection.checkCollision(button, rectangle) && CollisionDetection.isCollision(button, rectangle));
+        });
         primaryStage.setScene(scene);
         primaryStage.setWidth(800);
         primaryStage.setHeight(800);

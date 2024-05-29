@@ -63,7 +63,7 @@ public class CollisionDetection {
         return checkRotateCollision(mutualPoints, mainNode) && checkRotateCollision(mutualPoints, otherNode);
     }
 
-    public static boolean checkRotateCollision(int[] mutualPoints, Node mainNode) {
+    private static boolean checkRotateCollision(int[] mutualPoints, Node mainNode) {
         double rotate = mainNode.getRotate() % 90;
         if (rotate == 0) {
             return true;
@@ -81,8 +81,6 @@ public class CollisionDetection {
         int topX = (int) (cosAnother * normalWidth);
         int rightY = (int) boundsInParent.getHeight() - leftY;
         int bottomX = (int) boundsInParent.getWidth() - topX;
-
-
         double tempCos, tempCosAnother;
         //上X轴判断
         if (boundsInParent.getMinY() + leftY < mutualPoints[1]) {
@@ -97,15 +95,71 @@ public class CollisionDetection {
         }
         int tempHeight = Math.max((int) Math.abs(mutualPoints[1] - (boundsInParent.getMinY() + leftY)), 2);
         int tempHeightRight = Math.max((int) Math.abs(mutualPoints[1] - (boundsInParent.getMinY() + rightY)), 2);
+        if (checkXCollision(mutualPoints, boundsInParent, tempCos, tempCosAnother, tempHeight, tempHeightRight))
+            return true;
+        //下X轴判断
+        if (boundsInParent.getMinY() + leftY < mutualPoints[1] + mutualPoints[3]) {
+            tempCos = cosAnother;
+        } else {
+            tempCos = cos;
+        }
+        if (boundsInParent.getMinY() + rightY < mutualPoints[1] + mutualPoints[3]) {
+            tempCosAnother = cos;
+        } else {
+            tempCosAnother = cosAnother;
+        }
+        tempHeight = Math.max((int) Math.abs(mutualPoints[1] + mutualPoints[3] - (boundsInParent.getMinY() + leftY)), 2);
+        tempHeightRight = Math.max((int) Math.abs(mutualPoints[1] + mutualPoints[3] - (boundsInParent.getMinY() + rightY)), 2);
+        if (checkXCollision(mutualPoints, boundsInParent, tempCos, tempCosAnother, tempHeight, tempHeightRight))
+            return true;
+        //上Y轴判断
+        if (boundsInParent.getMinX() + topX < mutualPoints[0]) {
+            tempCos = cos;
+        } else {
+            tempCos = cosAnother;
+        }
+        if (boundsInParent.getMinX() + bottomX < mutualPoints[0]) {
+            tempCosAnother = cosAnother;
+        } else {
+            tempCosAnother = cos;
+        }
+        tempHeight = Math.max((int) Math.abs(mutualPoints[0] - (boundsInParent.getMinX() + topX)), 2);
+        tempHeightRight = Math.max((int) Math.abs(mutualPoints[0] - (boundsInParent.getMinX() + bottomX)), 2);
+        if (checkYCollision(mutualPoints, boundsInParent, tempCos, tempCosAnother, tempHeight, tempHeightRight)) {
+            return true;
+        }
+        //下Y轴判断
+        if (boundsInParent.getMinX() + topX < mutualPoints[0] + mutualPoints[2]) {
+            tempCos = cos;
+        } else {
+            tempCos = cosAnother;
+        }
+        if (boundsInParent.getMinX() + bottomX < mutualPoints[0] + mutualPoints[2]) {
+            tempCosAnother = cosAnother;
+        } else {
+            tempCosAnother = cos;
+        }
+        tempHeight = Math.max((int) Math.abs(mutualPoints[0] + mutualPoints[2] - (boundsInParent.getMinX() + topX)), 2);
+        tempHeightRight = Math.max((int) Math.abs(mutualPoints[0] + mutualPoints[2] - (boundsInParent.getMinX() + bottomX)), 2);
+        if (checkYCollision(mutualPoints, boundsInParent, tempCos, tempCosAnother, tempHeight, tempHeightRight)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkXCollision(int[] mutualPoints, Bounds boundsInParent, double tempCos, double tempCosAnother, int tempHeight, int tempHeightRight) {
         if (!(boundsInParent.getMinX() + Math.sqrt(Math.pow(tempHeight / tempCos, 2) - Math.pow(tempHeight, 2)) > mutualPoints[0] + mutualPoints[2]
                 || boundsInParent.getMaxX() - Math.sqrt(Math.pow(tempHeightRight / tempCosAnother, 2) - Math.pow(tempHeightRight, 2)) < mutualPoints[0])) {
             return true;
         }
-        /*
-         * 现在的问题是Y轴无法比较
-         * */
+        return false;
+    }
 
-        System.out.println("leftY: " + leftY + " topX:" + topX + " rightY: " + rightY + " bottomX: " + bottomX);
+    private static boolean checkYCollision(int[] mutualPoints, Bounds boundsInParent, double tempCos, double tempCosAnother, int tempHeight, int tempHeightRight) {
+        if (!(boundsInParent.getMinY() + Math.sqrt(Math.pow(tempHeight / tempCos, 2) - Math.pow(tempHeight, 2)) > mutualPoints[1] + mutualPoints[3]
+                || boundsInParent.getMaxY() - Math.sqrt(Math.pow(tempHeightRight / tempCosAnother, 2) - Math.pow(tempHeightRight, 2)) < mutualPoints[1])) {
+            return true;
+        }
         return false;
     }
 
