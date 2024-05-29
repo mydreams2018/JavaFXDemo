@@ -33,14 +33,11 @@ public class RotateOutDemo extends Application {
         Button button = new Button("Rotate");
         button.setOnAction(event -> {
             rectangle.setRotate(++rotateNum);
-            Bounds boundsInLocal = rectangle.getBoundsInParent();
-            hbox.setLayoutX(boundsInLocal.getMinX());
-            hbox.setLayoutY(boundsInLocal.getMinY());
-            hbox.setPrefWidth(boundsInLocal.getWidth());
-            hbox.setPrefHeight(boundsInLocal.getHeight());
-//            System.out.println(rectangle.getLayoutBounds());
-//            System.out.println(rectangle.getBoundsInLocal());
-//            System.out.println(boundsInLocal);
+            Bounds boundsInParent = rectangle.getBoundsInParent();
+            hbox.setLayoutX(boundsInParent.getMinX());
+            hbox.setLayoutY(boundsInParent.getMinY());
+            hbox.setPrefWidth(boundsInParent.getWidth());
+            hbox.setPrefHeight(boundsInParent.getHeight());
             //包含旋转后放大的区域 [此XY坐标点是否有子元素]
 //            System.out.println(root.contains(198, 198));
         });
