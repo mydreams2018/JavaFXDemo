@@ -4,7 +4,10 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 
 public class CollisionDetection {
-
+    /*
+     * mainNode 主节点不要旋转或者 90度的倍数
+     * otherNode 任意旋转角度
+     * */
     public static boolean checkCollision(Node mainNode, Node otherNode) {
         Bounds mainNodeBounds = mainNode.getBoundsInParent();
         Bounds otherNodeBounds = otherNode.getBoundsInParent();
@@ -35,7 +38,7 @@ public class CollisionDetection {
             if (otherNodeBounds.getMaxX() > mainNodeBounds.getMaxX()) {
                 points[2] = (int) mainNodeBounds.getWidth();
             } else {
-                points[2] = (int) (mainNodeBounds.getWidth() - (otherNodeBounds.getMaxX() - mainNodeBounds.getMaxX()));
+                points[2] = (int) (mainNodeBounds.getWidth() - (mainNodeBounds.getMaxX() - otherNodeBounds.getMaxX()));
             }
         }
         //找到起始点Y然后计算出高度
