@@ -5,4 +5,5 @@ open module com.example.javafxdemo {
     requires javafx.web;
     requires javafx.graphics;
     requires javafx.media;
+    requires static lombok;
 }
