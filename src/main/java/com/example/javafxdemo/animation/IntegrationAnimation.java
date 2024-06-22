@@ -23,6 +23,9 @@ public class IntegrationAnimation {
     //功击动画
     private Timeline attackTimeline;
     private VariableAnimation attackVariableAnimation;
+    //跑步重击
+    private Timeline highAttackTimeline;
+    private VariableAnimation highAttackVariableAnimation;
     //攀登动画
     private Timeline climbTimeline;
     //挂掉动画
@@ -43,6 +46,7 @@ public class IntegrationAnimation {
     private final ThreadLocal<OperationHistory> operationHistoryThreadLocal = new ThreadLocal<>();
     private final DurationControl moveDurationControl = new DurationControl(500);
     private final DurationControl attackDurationControl = new DurationControl(500);
+    private final DurationControl highAttackDurationControl = new DurationControl(1000);
 
 
     /* 空闲动画
@@ -126,17 +130,36 @@ public class IntegrationAnimation {
      * durationMillis 动画的间隔时间
      * delayMillis 动画启动的延迟时间
      * moveDistance 每一步走的像素
-     * operationHistoryDistance 左 <--> 右 转换时的一个间隔像素
      * */
     public void addAttackTimeline(ImageView imageView, List<Image> imagesRight, List<Image> imagesLeft, int durationMillis,
-                                  int delayMillis, int moveDistance, int operationHistoryDistance) {
+                                  int delayMillis, int moveDistance) {
         if (this.attackTimeline == null) {
             this.attackTimeline = new Timeline();
             this.attackTimeline.setCycleCount(1);
             this.attackTimeline.setAutoReverse(false);
             this.attackVariableAnimation = new VariableAnimation(imageView, imagesRight, imagesLeft, durationMillis, moveDistance,
-                    this.operationHistoryThreadLocal, this.attackTimeline, operationHistoryDistance);
+                    this.operationHistoryThreadLocal, this.attackTimeline, 0);
             this.attackTimeline.setDelay(Duration.millis(delayMillis));
+        }
+    }
+
+    /* 跑步功击动画
+     * imageView 动画应用的图像
+     * imagesRight 多个动画帧集合 右操作方向
+     * imagesLeft 多个动画帧集合 左操作方向
+     * durationMillis 动画的间隔时间
+     * delayMillis 动画启动的延迟时间
+     * moveDistance 每一步走的像素
+     * */
+    public void addHighAttackTimeline(ImageView imageView, List<Image> imagesRight, List<Image> imagesLeft, int durationMillis,
+                                      int delayMillis, int moveDistance) {
+        if (this.highAttackTimeline == null) {
+            this.highAttackTimeline = new Timeline();
+            this.highAttackTimeline.setCycleCount(2);
+            this.highAttackTimeline.setAutoReverse(true);
+            this.highAttackVariableAnimation = new VariableAnimation(imageView, imagesRight, imagesLeft, durationMillis, moveDistance,
+                    this.operationHistoryThreadLocal, this.highAttackTimeline, 0);
+            this.highAttackTimeline.setDelay(Duration.millis(delayMillis));
         }
     }
 
@@ -149,6 +172,10 @@ public class IntegrationAnimation {
             switch (this.animationType) {
                 case IDLE -> this.idleTimeline.stop();
                 case ATTACK -> this.attackTimeline.stop();
+                case HIGH_ATTACK -> {
+                    this.highAttackTimeline.stop();
+                    this.highAttackVariableAnimation.resetTranslateX();
+                }
                 case RUN -> this.runTimeline.stop();
                 case HURT -> this.hurtTimeline.stop();
                 case JUMP -> this.jumpTimeline.stop();
@@ -163,6 +190,10 @@ public class IntegrationAnimation {
             case ATTACK -> {
                 this.attackVariableAnimation.startAttackVariableAnimation();
                 this.attackTimeline.playFromStart();
+            }
+            case HIGH_ATTACK -> {
+                this.highAttackVariableAnimation.startHighAttackVariableAnimation();
+                this.highAttackTimeline.playFromStart();
             }
             case RUN -> this.runTimeline.playFromStart();
             case HURT -> this.hurtTimeline.playFromStart();
@@ -236,7 +267,7 @@ public class IntegrationAnimation {
                 }
                 this.walkTimeline.getKeyFrames().add(keyFrame);
             }
-        } 
+        }
 
         public void startAttackVariableAnimation() {
             this.walkTimeline.getKeyFrames().clear();
@@ -259,10 +290,38 @@ public class IntegrationAnimation {
             }
         }
 
+        public void resetTranslateX() {
+            this.imageView.setTranslateX(0);
+        }
+
+        public void startHighAttackVariableAnimation() {
+            this.walkTimeline.getKeyFrames().clear();
+            for (int i = 0; i < this.imagesRight.size(); i++) {
+                KeyFrame keyFrame;
+                KeyValue keyValue;
+                if (this.operationHistoryThreadLocal.get() == OperationHistory.RIGHT) {
+                    keyValue = new KeyValue(imageView.translateXProperty(), imageView.translateXProperty().get() + (i * moveDistance));
+                    keyFrame = new KeyFrame(Duration.millis(i * durationMillis), String.valueOf(i), event -> {
+                        KeyFrame source = (KeyFrame) event.getSource();
+                        int indexImage = Integer.parseInt(source.getName());
+                        imageView.setImage(imagesRight.get(indexImage));
+                    }, keyValue);
+                } else {
+                    keyValue = new KeyValue(imageView.translateXProperty(), imageView.translateXProperty().get() - (i * moveDistance));
+                    keyFrame = new KeyFrame(Duration.millis(i * durationMillis), String.valueOf(i), event -> {
+                        KeyFrame source = (KeyFrame) event.getSource();
+                        int indexImage = Integer.parseInt(source.getName());
+                        imageView.setImage(imagesLeft.get(indexImage));
+                    }, keyValue);
+                }
+                this.walkTimeline.getKeyFrames().add(keyFrame);
+            }
+        }
+
     }
 
     public static enum AnimationType {
-        IDLE, ATTACK, CLIMB, DEATH, HURT, JUMP, RUN, WALK;
+        IDLE, ATTACK, HIGH_ATTACK, CLIMB, DEATH, HURT, JUMP, RUN, WALK;
     }
 
     public static enum OperationHistory {

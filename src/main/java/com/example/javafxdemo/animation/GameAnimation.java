@@ -73,13 +73,34 @@ public class GameAnimation extends Application {
             }
         }
 
+        List<Image> imageListHighAttackRight = new ArrayList<>();
+        URL idleAnimationHighAttackRight = ClassLoader.getSystemResource("Run_Attack/right/");
+        File fileHighAttackRight = new File(idleAnimationHighAttackRight.toURI());
+        if (fileHighAttackRight.exists() && fileHighAttackRight.isDirectory()) {
+            File[] listFiles = fileHighAttackRight.listFiles();
+            for (int i = 0; i < listFiles.length; i++) {
+                imageListHighAttackRight.add(new Image(new File(fileHighAttackRight, "run_attack" + i + ".png").toURI().toString()));
+            }
+        }
+        List<Image> imageListHighAttackLeft = new ArrayList<>();
+        URL idleAnimationHighAttackLeft = ClassLoader.getSystemResource("Run_Attack/left/");
+        File fileHighAttackLeft = new File(idleAnimationHighAttackLeft.toURI());
+        if (fileHighAttackLeft.exists() && fileHighAttackLeft.isDirectory()) {
+            File[] listFiles = fileHighAttackLeft.listFiles();
+            for (int i = 0; i < listFiles.length; i++) {
+                imageListHighAttackLeft.add(new Image(new File(fileHighAttackLeft, "run_attack" + i + ".png").toURI().toString()));
+            }
+        }
+
         IntegrationAnimation integrationAnimation = new IntegrationAnimation();
         integrationAnimation.getOperationHistoryThreadLocal().set(IntegrationAnimation.OperationHistory.RIGHT);
         integrationAnimation.addIdleTimeline(imageView, imageList, 100, 1000);
         integrationAnimation.addWalkTimeline(imageView, imageListWalkRight, imageListWalkLeft, 100, 0,
                 8, 43);
         integrationAnimation.addAttackTimeline(imageView, imageListAttackRight, imageListAttackLeft, 100, 0,
-                8, 43);
+                8);
+        integrationAnimation.addHighAttackTimeline(imageView, imageListHighAttackRight, imageListHighAttackLeft, 100, 0,
+                8);
         integrationAnimation.startAnimation(IntegrationAnimation.AnimationType.IDLE);
 
         root.getChildren().add(imageView);
@@ -87,7 +108,9 @@ public class GameAnimation extends Application {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.J && integrationAnimation.getAttackDurationControl().changeOpacity()) {
                 integrationAnimation.startAnimation(IntegrationAnimation.AnimationType.ATTACK);
-
+            }
+            if (event.getCode() == KeyCode.K && integrationAnimation.getHighAttackDurationControl().changeOpacity()) {
+                integrationAnimation.startAnimation(IntegrationAnimation.AnimationType.HIGH_ATTACK);
             }
             if (event.getCode() == KeyCode.D && integrationAnimation.getMoveDurationControl().changeOpacity()) {
                 integrationAnimation.getOperationHistoryThreadLocal().set(IntegrationAnimation.OperationHistory.RIGHT);
