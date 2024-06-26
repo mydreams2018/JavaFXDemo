@@ -39,15 +39,13 @@ public class IntegrationAnimation {
     //走动画
     private Timeline walkTimeline;
     private VariableAnimation walkVariableAnimation;
-
     //当前播放的动画类型标识
     private AnimationType animationType;
 
     private final ThreadLocal<OperationHistory> operationHistoryThreadLocal = new ThreadLocal<>();
-    private final DurationControl moveDurationControl = new DurationControl(500);
+    private final DurationControl moveDurationControl = new DurationControl(300);
     private final DurationControl attackDurationControl = new DurationControl(500);
     private final DurationControl highAttackDurationControl = new DurationControl(1000);
-
 
     /* 空闲动画
      * imageView 动画应用的图像
@@ -155,8 +153,8 @@ public class IntegrationAnimation {
                                       int delayMillis, int moveDistance) {
         if (this.highAttackTimeline == null) {
             this.highAttackTimeline = new Timeline();
-            this.highAttackTimeline.setCycleCount(2);
-            this.highAttackTimeline.setAutoReverse(true);
+            this.highAttackTimeline.setCycleCount(1);
+            this.highAttackTimeline.setAutoReverse(false);
             this.highAttackVariableAnimation = new VariableAnimation(imageView, imagesRight, imagesLeft, durationMillis, moveDistance,
                     this.operationHistoryThreadLocal, this.highAttackTimeline, 0);
             this.highAttackTimeline.setDelay(Duration.millis(delayMillis));
@@ -172,10 +170,7 @@ public class IntegrationAnimation {
             switch (this.animationType) {
                 case IDLE -> this.idleTimeline.stop();
                 case ATTACK -> this.attackTimeline.stop();
-                case HIGH_ATTACK -> {
-                    this.highAttackTimeline.stop();
-                    this.highAttackVariableAnimation.resetTranslateX();
-                }
+                case HIGH_ATTACK -> this.highAttackTimeline.stop();
                 case RUN -> this.runTimeline.stop();
                 case HURT -> this.hurtTimeline.stop();
                 case JUMP -> this.jumpTimeline.stop();
@@ -192,7 +187,7 @@ public class IntegrationAnimation {
                 this.attackTimeline.playFromStart();
             }
             case HIGH_ATTACK -> {
-                this.highAttackVariableAnimation.startHighAttackVariableAnimation();
+                this.highAttackVariableAnimation.startAttackVariableAnimation();
                 this.highAttackTimeline.playFromStart();
             }
             case RUN -> this.runTimeline.playFromStart();
@@ -242,10 +237,13 @@ public class IntegrationAnimation {
             } else if (this.operationHistoryCache != this.operationHistoryThreadLocal.get()) {
                 if (this.operationHistoryThreadLocal.get() == OperationHistory.RIGHT) {
                     this.imageView.setLayoutX(this.imageView.getLayoutX() + operationHistoryDistance);
+                    this.imageView.setImage(this.imagesRight.getFirst());
                 } else {
                     this.imageView.setLayoutX(this.imageView.getLayoutX() - operationHistoryDistance);
+                    this.imageView.setImage(this.imagesLeft.getFirst());
                 }
                 this.operationHistoryCache = this.operationHistoryThreadLocal.get();
+                return;
             }
             for (int i = 0; i < this.imagesRight.size(); i++) {
                 KeyValue keyValue = null;
@@ -294,7 +292,7 @@ public class IntegrationAnimation {
             this.imageView.setTranslateX(0);
         }
 
-        public void startHighAttackVariableAnimation() {
+        public void startRunAttackVariableAnimation() {
             this.walkTimeline.getKeyFrames().clear();
             for (int i = 0; i < this.imagesRight.size(); i++) {
                 KeyFrame keyFrame;

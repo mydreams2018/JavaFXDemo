@@ -54,50 +54,50 @@ public class GameAnimation extends Application {
         }
 
         List<Image> imageListAttackRight = new ArrayList<>();
-        URL idleAnimationAttackRight = ClassLoader.getSystemResource("Walk_Attack/right/");
+        URL idleAnimationAttackRight = ClassLoader.getSystemResource("Attack/right/");
         File fileAttackRight = new File(idleAnimationAttackRight.toURI());
         if (fileAttackRight.exists() && fileAttackRight.isDirectory()) {
             File[] listFiles = fileAttackRight.listFiles();
-            for (int i = 1; i <= listFiles.length; i++) {
-                imageListAttackRight.add(new Image(new File(fileAttackRight, "walk_attack" + i + ".png").toURI().toString()));
+            for (int i = 0; i < listFiles.length; i++) {
+                imageListAttackRight.add(new Image(new File(fileAttackRight, "attack" + i + ".png").toURI().toString()));
             }
         }
 
         List<Image> imageListAttackLeft = new ArrayList<>();
-        URL idleAnimationAttackLeft = ClassLoader.getSystemResource("Walk_Attack/left/");
+        URL idleAnimationAttackLeft = ClassLoader.getSystemResource("Attack/left/");
         File fileAttackLeft = new File(idleAnimationAttackLeft.toURI());
         if (fileAttackLeft.exists() && fileAttackLeft.isDirectory()) {
             File[] listFiles = fileAttackLeft.listFiles();
-            for (int i = 1; i <= listFiles.length; i++) {
-                imageListAttackLeft.add(new Image(new File(fileAttackLeft, "walk_attack" + i + ".png").toURI().toString()));
+            for (int i = 0; i < listFiles.length; i++) {
+                imageListAttackLeft.add(new Image(new File(fileAttackLeft, "attack" + i + ".png").toURI().toString()));
             }
         }
 
         List<Image> imageListHighAttackRight = new ArrayList<>();
-        URL idleAnimationHighAttackRight = ClassLoader.getSystemResource("Run_Attack/right/");
+        URL idleAnimationHighAttackRight = ClassLoader.getSystemResource("High_Attack/right/");
         File fileHighAttackRight = new File(idleAnimationHighAttackRight.toURI());
         if (fileHighAttackRight.exists() && fileHighAttackRight.isDirectory()) {
             File[] listFiles = fileHighAttackRight.listFiles();
-            for (int i = 0; i < listFiles.length; i++) {
-                imageListHighAttackRight.add(new Image(new File(fileHighAttackRight, "run_attack" + i + ".png").toURI().toString()));
+            for (int i = 1; i <= listFiles.length; i++) {
+                imageListHighAttackRight.add(new Image(new File(fileHighAttackRight, "attack_extra" + i + ".png").toURI().toString()));
             }
         }
         List<Image> imageListHighAttackLeft = new ArrayList<>();
-        URL idleAnimationHighAttackLeft = ClassLoader.getSystemResource("Run_Attack/left/");
+        URL idleAnimationHighAttackLeft = ClassLoader.getSystemResource("High_Attack/left/");
         File fileHighAttackLeft = new File(idleAnimationHighAttackLeft.toURI());
         if (fileHighAttackLeft.exists() && fileHighAttackLeft.isDirectory()) {
             File[] listFiles = fileHighAttackLeft.listFiles();
-            for (int i = 0; i < listFiles.length; i++) {
-                imageListHighAttackLeft.add(new Image(new File(fileHighAttackLeft, "run_attack" + i + ".png").toURI().toString()));
+            for (int i = 1; i <= listFiles.length; i++) {
+                imageListHighAttackLeft.add(new Image(new File(fileHighAttackLeft, "attack_extra" + i + ".png").toURI().toString()));
             }
         }
 
         IntegrationAnimation integrationAnimation = new IntegrationAnimation();
         integrationAnimation.getOperationHistoryThreadLocal().set(IntegrationAnimation.OperationHistory.RIGHT);
         integrationAnimation.addIdleTimeline(imageView, imageList, 100, 1000);
-        integrationAnimation.addWalkTimeline(imageView, imageListWalkRight, imageListWalkLeft, 100, 0,
+        integrationAnimation.addWalkTimeline(imageView, imageListWalkRight, imageListWalkLeft, 50, 0,
                 8, 43);
-        integrationAnimation.addAttackTimeline(imageView, imageListAttackRight, imageListAttackLeft, 100, 0,
+        integrationAnimation.addAttackTimeline(imageView, imageListAttackRight, imageListAttackLeft, 80, 0,
                 8);
         integrationAnimation.addHighAttackTimeline(imageView, imageListHighAttackRight, imageListHighAttackLeft, 100, 0,
                 8);

@@ -29,7 +29,7 @@ public class AffineImage extends Application {
     public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
         root.setAutoSizeChildren(false);
-        File fileIn = new File("E:\\game\\pixel-art-characters-for-platformer-games\\PNG\\Knight\\Walk_Attack\\");
+        File fileIn = new File("E:\\game\\pixel-art-characters-for-platformer-games\\PNG\\Knight\\Attack_Extra\\");
         File fileOut = new File("C:\\Users\\kungr\\Documents\\affine\\");
         ImageView imageView = new ImageView();
         root.getChildren().add(imageView);
