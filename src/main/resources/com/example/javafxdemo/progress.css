@@ -1,0 +1,7 @@
+/** progress.css
+    place in same directory as
+    ColoredProgressBarStyleSheet.java or SimpleColoredProgressBar.java
+    ensure build system copies the css file to the build output path */
+
+.progress-bar { -fx-box-border: goldenrod; }
+.red-bar    { -fx-accent: red;    }

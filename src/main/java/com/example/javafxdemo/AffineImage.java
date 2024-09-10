@@ -29,8 +29,8 @@ public class AffineImage extends Application {
     public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
         root.setAutoSizeChildren(false);
-        File fileIn = new File("E:\\game\\pixel-art-characters-for-platformer-games\\PNG\\Knight\\Attack_Extra\\");
-        File fileOut = new File("C:\\Users\\kungr\\Documents\\affine\\");
+        File fileIn = new File("F:\\animation\\knight\\jumpRight\\");
+        File fileOut = new File("C:\\Users\\mydre\\Documents\\affine\\");
         ImageView imageView = new ImageView();
         root.getChildren().add(imageView);
         Scene scene = new Scene(root);
