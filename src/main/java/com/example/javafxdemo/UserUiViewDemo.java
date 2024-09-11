@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -51,6 +52,8 @@ public class UserUiViewDemo extends Application {
         public UserUiView(int baseX, int baseY) {
             this.uiPane.setLayoutX(baseX);
             this.uiPane.setLayoutY(baseY);
+            this.uiPane.setPrefHeight(this.baseImageWidth * 2);
+            this.uiPane.setBackground(Background.fill(Color.GREEN));
         }
 
         public void initPane() {
@@ -63,11 +66,11 @@ public class UserUiViewDemo extends Application {
             circle.setFill(null);
             circle.setStrokeWidth(2);
             circle.setStroke(Color.RED);
-            Arc leftTopArc = new Arc(64, 64, 64, 64, 90, 180);
+            Arc leftTopArc = new Arc(64, 64, 64, 64, 90, 360);
             leftTopArc.setType(ArcType.ROUND);
-            Arc rightTopArc = new Arc(0, 64, 64, 64, 0, 90);
+            Arc rightTopArc = new Arc(0, 64, 64, 64, 0, 360);
             rightTopArc.setType(ArcType.ROUND);
-            Arc leftBottomArc = new Arc(64, 0, 64, 64, 180, 270);
+            Arc leftBottomArc = new Arc(64, 0, 64, 64, 180, 360);
             leftBottomArc.setType(ArcType.ROUND);
             Arc rightBottomArc = new Arc(0, 0, 64, 64, 270, 360);
             rightBottomArc.setType(ArcType.ROUND);
