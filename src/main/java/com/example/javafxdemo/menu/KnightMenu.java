@@ -37,6 +37,7 @@ public class KnightMenu {
     private static final ImageView LANGUAGE_BUTTON_EN = new ImageView(LANGUAGE_BUTTON);
     private static final Label LANGUAGE_BUTTON_EN_LABEL = new Label("english");
     private static final Dialog<String> PROJECT_INTRODUCTION = new Dialog<>();
+    private static final Dialog<String> KEYBOARD_BINDING = new Dialog<>();
 
     private static boolean LanguageChoiceShow = false;
 
@@ -75,6 +76,16 @@ public class KnightMenu {
         PROJECT_INTRODUCTION.getDialogPane().getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
         PROJECT_INTRODUCTION.setResizable(false);
         PROJECT_INTRODUCTION.initStyle(StageStyle.UNDECORATED);
+
+        Background keyBorderBackground = new Background(new BackgroundImage(new Image(KnightMenu.class.getResourceAsStream("beige_border.png")),
+                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+        KEYBOARD_BINDING.getDialogPane().setBackground(keyBorderBackground);
+        KEYBOARD_BINDING.getDialogPane().setPrefWidth(276);
+        KEYBOARD_BINDING.getDialogPane().setPrefHeight(333);
+        KEYBOARD_BINDING.getDialogPane().getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
+        KeyBorderBinding keyBorderBinding = new KeyBorderBinding();
+        KEYBOARD_BINDING.getDialogPane().setGraphic(keyBorderBinding.getKeyBorderVBox());
+        KEYBOARD_BINDING.initStyle(StageStyle.UNDECORATED);
     }
 
     public KnightMenu() {
@@ -224,6 +235,7 @@ public class KnightMenu {
             KnightMenu.this.buttonKeyboardBindingView.setCursor(Cursor.OPEN_HAND);
         });
         this.buttonKeyboardBindingView.setOnMouseExited(event -> KnightMenu.this.buttonKeyboardBindingView.setImage(BUTTON_TYPE_TWO));
+        this.buttonKeyboardBindingView.setOnMouseClicked(event -> KEYBOARD_BINDING.showAndWait());
 
         this.buttonLevelIntroductionView.setOnMouseEntered(event -> {
             KnightMenu.this.buttonLevelIntroductionView.setImage(BUTTON_TYPE_TWO_YELLOW);
