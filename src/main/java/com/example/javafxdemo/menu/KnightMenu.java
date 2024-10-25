@@ -66,12 +66,12 @@ public class KnightMenu {
         List<String> two = List.of("Introduction", "Language", "Back Volume", "Main Volume", "Keyboard Binding", "Level Introduction", "Restart", "Stop Game");
         ALL_LANGUAGE.put("中文", one);
         ALL_LANGUAGE.put("english", two);
-        Background textBackground = new Background(new BackgroundFill[]{new BackgroundFill(Paint.valueOf("#f3da85"), CornerRadii.EMPTY, Insets.EMPTY)},
+        Background textBackground = new Background(new BackgroundFill[]{new BackgroundFill(Paint.valueOf("#ae8440"), CornerRadii.EMPTY, Insets.EMPTY)},
                 new BackgroundImage[]{new BackgroundImage(new Image(KnightMenu.class.getResourceAsStream("text_border.png")),
                         BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)});
         PROJECT_INTRODUCTION.getDialogPane().setBackground(textBackground);
-        PROJECT_INTRODUCTION.getDialogPane().setPrefWidth(586);
-        PROJECT_INTRODUCTION.getDialogPane().setPrefHeight(325);
+        PROJECT_INTRODUCTION.getDialogPane().setPrefWidth(582);
+        PROJECT_INTRODUCTION.getDialogPane().setPrefHeight(321);
         PROJECT_INTRODUCTION.getDialogPane().getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
         PROJECT_INTRODUCTION.setResizable(false);
         PROJECT_INTRODUCTION.initStyle(StageStyle.UNDECORATED);
