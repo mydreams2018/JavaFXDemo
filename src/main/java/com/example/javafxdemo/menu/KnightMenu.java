@@ -38,6 +38,8 @@ public class KnightMenu {
 
     private static final int BASE_WIDTH = 346;
     private static final int BASE_HEIGHT = 69;
+    private static final ImageView[] BACK_VOLUME_VIEW = new ImageView[20];
+    private static final ImageView[] MAIN_VOLUME_VIEW = new ImageView[20];
 
     private final Pane meunPane = new Pane();
     private final Label[] textLabels;
@@ -50,6 +52,8 @@ public class KnightMenu {
     private final ImageView buttonLevelIntroductionView = new ImageView(BUTTON_TYPE_TWO);
     private final ImageView buttonRestartView = new ImageView(BUTTON_TYPE_TWO);
     private final ImageView buttonStopView = new ImageView(BUTTON_TYPE_TWO);
+    private int backVolume = 4;
+    private int mainVolume = 20;
 
     private String currentLanguage = "中文";
 
@@ -100,27 +104,33 @@ public class KnightMenu {
         LANGUAGE_BUTTON_CN.setLayoutX(571);
         LANGUAGE_BUTTON_CN.setLayoutY(BASE_HEIGHT - 10);
         LANGUAGE_BUTTON_CN.setVisible(LanguageChoiceShow);
+        LANGUAGE_BUTTON_CN.setViewOrder(-1);
         LANGUAGE_BUTTON_CN_LABEL.setLayoutX(571);
         LANGUAGE_BUTTON_CN_LABEL.setLayoutY(BASE_HEIGHT - 10);
         LANGUAGE_BUTTON_CN_LABEL.setVisible(LanguageChoiceShow);
         LANGUAGE_BUTTON_CN_LABEL.setAlignment(Pos.CENTER);
         LANGUAGE_BUTTON_CN_LABEL.setPrefWidth(109);
         LANGUAGE_BUTTON_CN_LABEL.setPrefHeight(36);
+        LANGUAGE_BUTTON_CN_LABEL.setViewOrder(-1);
         LANGUAGE_BUTTON_EN.setLayoutX(571);
         LANGUAGE_BUTTON_EN.setLayoutY(BASE_HEIGHT + 26);
         LANGUAGE_BUTTON_EN.setVisible(LanguageChoiceShow);
+        LANGUAGE_BUTTON_EN.setViewOrder(-1);
         LANGUAGE_BUTTON_EN_LABEL.setLayoutX(571);
         LANGUAGE_BUTTON_EN_LABEL.setLayoutY(BASE_HEIGHT + 26);
         LANGUAGE_BUTTON_EN_LABEL.setVisible(LanguageChoiceShow);
         LANGUAGE_BUTTON_EN_LABEL.setAlignment(Pos.CENTER);
         LANGUAGE_BUTTON_EN_LABEL.setPrefWidth(109);
         LANGUAGE_BUTTON_EN_LABEL.setPrefHeight(36);
+        LANGUAGE_BUTTON_EN_LABEL.setViewOrder(-1);
 
         this.meunPane.getChildren().addAll(this.buttonIntroductionView, this.buttonLanguageView, this.buttonBackgroundVolumeView, this.buttonMainVolumeView,
                 this.buttonKeyboardBindingView, this.buttonLevelIntroductionView, this.buttonRestartView, this.buttonStopView, this.textLabels[0],
                 this.textLabels[1], this.textLabels[2], this.textLabels[3], this.textLabels[4], this.textLabels[5], this.textLabels[6], this.textLabels[7],
                 LANGUAGE_BUTTON_CN, LANGUAGE_BUTTON_EN, LANGUAGE_BUTTON_CN_LABEL, LANGUAGE_BUTTON_EN_LABEL);
         this.initMouseEvent();
+        this.backgroundVolumeConversion();
+        this.mainVolumeConversion();
     }
 
     public void initMouseEvent() {
@@ -168,12 +178,32 @@ public class KnightMenu {
             KnightMenu.this.buttonBackgroundVolumeView.setCursor(Cursor.OPEN_HAND);
         });
         this.buttonBackgroundVolumeView.setOnMouseExited(event -> KnightMenu.this.buttonBackgroundVolumeView.setImage(BUTTON_TYPE_FOUR));
+        this.buttonBackgroundVolumeView.setOnMouseClicked(event -> {
+            double eventX = event.getX();
+            if (eventX >= 115 && eventX <= 130) {
+                KnightMenu.this.setBackVolume(KnightMenu.this.getBackVolume() - 1);
+                KnightMenu.this.backgroundVolumeConversion();
+            } else if (eventX >= 315 && eventX <= 330) {
+                KnightMenu.this.setBackVolume(KnightMenu.this.getBackVolume() + 1);
+                KnightMenu.this.backgroundVolumeConversion();
+            }
+        });
 
         this.buttonMainVolumeView.setOnMouseEntered(event -> {
             KnightMenu.this.buttonMainVolumeView.setImage(BUTTON_TYPE_FOUR_YELLOW);
             KnightMenu.this.buttonMainVolumeView.setCursor(Cursor.OPEN_HAND);
         });
         this.buttonMainVolumeView.setOnMouseExited(event -> KnightMenu.this.buttonMainVolumeView.setImage(BUTTON_TYPE_FOUR));
+        this.buttonMainVolumeView.setOnMouseClicked(event -> {
+            double eventX = event.getX();
+            if (eventX >= 115 && eventX <= 130) {
+                KnightMenu.this.setMainVolume(KnightMenu.this.getMainVolume() - 1);
+                KnightMenu.this.mainVolumeConversion();
+            } else if (eventX >= 315 && eventX <= 330) {
+                KnightMenu.this.setMainVolume(KnightMenu.this.getMainVolume() + 1);
+                KnightMenu.this.mainVolumeConversion();
+            }
+        });
 
         this.buttonKeyboardBindingView.setOnMouseEntered(event -> {
             KnightMenu.this.buttonKeyboardBindingView.setImage(BUTTON_TYPE_TWO_YELLOW);
@@ -208,4 +238,71 @@ public class KnightMenu {
         }
     }
 
+    public void backgroundVolumeConversion() {
+        for (int i = backVolume; i < BACK_VOLUME_VIEW.length; i++) {
+            ImageView imageView = BACK_VOLUME_VIEW[i];
+            if (imageView != null) {
+                this.meunPane.getChildren().remove(imageView);
+            }
+        }
+        int baseWidth = 8;
+        int baseX = 145;
+        int baseY = 78;
+        for (int i = 0; i < backVolume; i++) {
+            ImageView imageView = BACK_VOLUME_VIEW[i];
+            if (imageView == null) {
+                imageView = new ImageView(CHOOSE_ELEMENT);
+                BACK_VOLUME_VIEW[i] = imageView;
+            }
+            imageView.setLayoutX(baseX + i * baseWidth);
+            imageView.setLayoutY(baseY);
+            if (!this.meunPane.getChildren().contains(imageView)) {
+                this.meunPane.getChildren().add(imageView);
+            }
+        }
+    }
+
+    public void mainVolumeConversion() {
+        for (int i = mainVolume; i < MAIN_VOLUME_VIEW.length; i++) {
+            ImageView imageView = MAIN_VOLUME_VIEW[i];
+            if (imageView != null) {
+                this.meunPane.getChildren().remove(imageView);
+            }
+        }
+        int baseWidth = 8;
+        int baseX = 145 + BASE_WIDTH;
+        int baseY = 78;
+        for (int i = 0; i < mainVolume; i++) {
+            ImageView imageView = MAIN_VOLUME_VIEW[i];
+            if (imageView == null) {
+                imageView = new ImageView(CHOOSE_ELEMENT);
+                MAIN_VOLUME_VIEW[i] = imageView;
+            }
+            imageView.setLayoutX(baseX + i * baseWidth);
+            imageView.setLayoutY(baseY);
+            if (!this.meunPane.getChildren().contains(imageView)) {
+                this.meunPane.getChildren().add(imageView);
+            }
+        }
+    }
+
+    public void setBackVolume(int backVolume) {
+        if (backVolume < 0) {
+            this.backVolume = 0;
+        } else if (backVolume > 20) {
+            this.backVolume = 20;
+        } else {
+            this.backVolume = backVolume;
+        }
+    }
+
+    public void setMainVolume(int mainVolume) {
+        if (mainVolume < 0) {
+            this.mainVolume = 0;
+        } else if (mainVolume > 20) {
+            this.mainVolume = 20;
+        } else {
+            this.mainVolume = mainVolume;
+        }
+    }
 }

@@ -18,6 +18,8 @@ public class MenuUiDemo extends Application {
         primaryStage.setHeight(768);
         primaryStage.setTitle("menu");
         primaryStage.show();
+        System.out.println(knightMenu.getMeunPane().prefWidth(-1));
+        System.out.println(knightMenu.getMeunPane().prefHeight(-1));
     }
 
     public static void main(String[] args) {
