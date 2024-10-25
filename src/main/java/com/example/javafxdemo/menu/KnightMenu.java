@@ -1,14 +1,17 @@
 package com.example.javafxdemo.menu;
 
-
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.stage.StageStyle;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class KnightMenu {
     private static final Label LANGUAGE_BUTTON_CN_LABEL = new Label("中文");
     private static final ImageView LANGUAGE_BUTTON_EN = new ImageView(LANGUAGE_BUTTON);
     private static final Label LANGUAGE_BUTTON_EN_LABEL = new Label("english");
+    private static final Dialog<String> PROJECT_INTRODUCTION = new Dialog<>();
 
     private static boolean LanguageChoiceShow = false;
 
@@ -62,6 +66,15 @@ public class KnightMenu {
         List<String> two = List.of("Introduction", "Language", "Back Volume", "Main Volume", "Keyboard Binding", "Level Introduction", "Restart", "Stop Game");
         ALL_LANGUAGE.put("中文", one);
         ALL_LANGUAGE.put("english", two);
+        Background textBackground = new Background(new BackgroundFill[]{new BackgroundFill(Paint.valueOf("#f3da85"), CornerRadii.EMPTY, Insets.EMPTY)},
+                new BackgroundImage[]{new BackgroundImage(new Image(KnightMenu.class.getResourceAsStream("text_border.png")),
+                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)});
+        PROJECT_INTRODUCTION.getDialogPane().setBackground(textBackground);
+        PROJECT_INTRODUCTION.getDialogPane().setPrefWidth(586);
+        PROJECT_INTRODUCTION.getDialogPane().setPrefHeight(325);
+        PROJECT_INTRODUCTION.getDialogPane().getButtonTypes().add(new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE));
+        PROJECT_INTRODUCTION.setResizable(false);
+        PROJECT_INTRODUCTION.initStyle(StageStyle.UNDECORATED);
     }
 
     public KnightMenu() {
@@ -139,6 +152,7 @@ public class KnightMenu {
             KnightMenu.this.buttonIntroductionView.setCursor(Cursor.OPEN_HAND);
         });
         this.buttonIntroductionView.setOnMouseExited(event -> KnightMenu.this.buttonIntroductionView.setImage(BUTTON_TYPE_TWO));
+        this.buttonIntroductionView.setOnMouseClicked(event -> PROJECT_INTRODUCTION.showAndWait());
 
         this.buttonLanguageView.setOnMouseEntered(event -> {
             KnightMenu.this.buttonLanguageView.setImage(BUTTON_TYPE_THREE_YELLOW);
