@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 
@@ -330,5 +331,13 @@ public class KnightMenu {
         } else {
             this.mainVolume = mainVolume;
         }
+    }
+
+    public void refreshLayout(int winWidth, int winHeight) {
+        this.meunPane.setPrefWidth(682);
+        this.meunPane.setPrefHeight(266);
+        this.meunPane.setClip(new Rectangle(682, 266));
+        this.meunPane.setLayoutX((winWidth - 682) / 2);
+        this.meunPane.setLayoutY((winHeight - 266) / 2);
     }
 }

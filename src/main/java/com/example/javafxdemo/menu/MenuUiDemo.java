@@ -20,6 +20,7 @@ public class MenuUiDemo extends Application {
         primaryStage.show();
         System.out.println(knightMenu.getMeunPane().prefWidth(-1));
         System.out.println(knightMenu.getMeunPane().prefHeight(-1));
+        knightMenu.refreshLayout(1366,768);
     }
 
     public static void main(String[] args) {

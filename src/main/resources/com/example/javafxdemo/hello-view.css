@@ -15,6 +15,9 @@
      -fx-stroke-line-cap: butt;
  }
 
+Button {
+     -fx-background-color:green;
+}
 
 /*
 disabled	    applies when the disabled variable is true
