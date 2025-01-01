@@ -7,21 +7,29 @@ import java.io.FileOutputStream;
 public class CipherOutputStreamTest {
 
     public static void main(String[] args) throws Exception {
-        cipherImageEncode();
+        cipherImageEncode(new File("C:\\Users\\mydre\\Pictures\\testCipher"));
     }
 
-    public static void cipherImageEncode() throws Exception {
-        File fileD = new File("C:\\Users\\mydre\\Pictures\\testCipher");
-        File[] listFiles = fileD.listFiles();
-        for (File file : listFiles) {
-            //读数据
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] readAllBytes = fileInputStream.readAllBytes();
-            fileInputStream.close();
-            //加密写出
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(file.getParent(), "en" + file.getName()));
-            fileOutputStream.write(CipherUtils.DEFAULTA.encryptNoIV(readAllBytes, "AES"));
-            fileOutputStream.close();
+    public static void cipherImageEncode(File fileDirectory) throws Exception {
+        if (!fileDirectory.isDirectory()) {
+            return;//必须是目录
+        }
+        File[] listFiles = fileDirectory.listFiles();
+        if (listFiles != null) {
+            for (File file : listFiles) {
+                if (file.isDirectory()) {
+                    cipherImageEncode(file);//目录迭代
+                } else {
+                    //读数据
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    byte[] readAllBytes = fileInputStream.readAllBytes();
+                    fileInputStream.close();
+                    //加密写出
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    fileOutputStream.write(CipherUtils.DEFAULTA.encryptNoIV(readAllBytes, "AES"));
+                    fileOutputStream.close();
+                }
+            }
         }
     }
 

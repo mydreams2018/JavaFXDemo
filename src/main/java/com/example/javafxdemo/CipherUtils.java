@@ -4,7 +4,6 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.util.Base64;
 
@@ -35,13 +34,14 @@ import java.util.Base64;
 public enum CipherUtils {
 
     DEFAULTA(new byte[]{-5, 58, -34, -105, -63, -109, 27, -52, -3, 20, 16, -97, 64, -47, 41, 19, 37, -20, 0, 52, -38, -105, 13, -88, 70, 101, 46, -27, 79, -1, -124, 55},
-            "AES","swww.kungreat.cn");
+            "AES", "swww.kungreat.cn");
 
-    CipherUtils(byte[] bytes, String algorithmname, String pmspec){
+    CipherUtils(byte[] bytes, String algorithmname, String pmspec) {
         this.algorithmbytes = bytes;
         this.algorithmname = algorithmname;
         this.pmspec = pmspec;
     }
+
     //SecretKey算法的byte数组
     public byte[] algorithmbytes;
     //SecretKey 算法名称
@@ -58,12 +58,12 @@ public enum CipherUtils {
      * content: 加密内容
      * transformation  返回实施指定转换的对象。Cipher
      */
-    public String encryptByIV(String content,String transformation) throws Exception {
+    public String encryptByIV(String content, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         //此类指定初始化向量（IV）
         IvParameterSpec iv = new IvParameterSpec(pmspec.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE,secretKey,iv);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
         byte[] encrypted = cipher.doFinal(content.getBytes());
         return Base64.getEncoder().encodeToString(encrypted);
     }
@@ -72,29 +72,28 @@ public enum CipherUtils {
      * content: 加密内容
      * transformation  返回实施指定转换的对象。Cipher
      */
-    public String encryptNoIV(String content,String transformation) throws Exception {
+    public String encryptNoIV(String content, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
-        cipher.init(Cipher.ENCRYPT_MODE,secretKey);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] encrypted = cipher.doFinal(content.getBytes());
         return Base64.getEncoder().encodeToString(encrypted);
     }
 
-    public byte[] encryptNoIV(byte[] content,String transformation) throws Exception {
+    public byte[] encryptNoIV(byte[] content, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
-        cipher.init(Cipher.ENCRYPT_MODE,secretKey);
-        byte[] encrypted = cipher.doFinal(content);
-        return encrypted;
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        return cipher.doFinal(content);
     }
 
     /**
      * base64Content: 解密内容(base64编码格式)
      * transformation  返回实施指定转换的对象。Cipher
      */
-    public String decryptByIV(String base64Content,String transformation) throws Exception {
+    public String decryptByIV(String base64Content, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         //此类指定初始化向量（IV）
         IvParameterSpec iv = new IvParameterSpec(pmspec.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
@@ -107,18 +106,18 @@ public enum CipherUtils {
      * base64Content: 解密内容(base64编码格式)
      * transformation  返回实施指定转换的对象。Cipher
      */
-    public String decryptNoIV(String base64Content,String transformation) throws Exception {
+    public String decryptNoIV(String base64Content, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] content = Base64.getDecoder().decode(base64Content);
         byte[] encrypted = cipher.doFinal(content);
         return new String(encrypted);
     }
 
-    public byte[] decryptNoIV(byte[] byteContent,String transformation) throws Exception {
+    public byte[] decryptNoIV(byte[] byteContent, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         return cipher.doFinal(byteContent);
     }
@@ -126,23 +125,26 @@ public enum CipherUtils {
 
     public Cipher getDecryptNoIV(String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         return cipher;
     }
 
-    /** wrap方法的作用是把原始的密钥通过某种加密算法包装为加密后的密钥，这样就可以避免在传递密钥的时候泄漏了密钥的明文。
+    /**
+     * wrap方法的作用是把原始的密钥通过某种加密算法包装为加密后的密钥，这样就可以避免在传递密钥的时候泄漏了密钥的明文。
      * key  包装一个密钥
      * transformation  返回实施指定转换的对象。Cipher
      */
-    public byte[] onWrap(Key key,String transformation) throws Exception {
+    public byte[] onWrap(Key key, String transformation) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         IvParameterSpec IV = new IvParameterSpec(pmspec.getBytes());
-        cipher.init(Cipher.WRAP_MODE, secretKey,IV);
+        cipher.init(Cipher.WRAP_MODE, secretKey, IV);
         return cipher.wrap(key);
     }
-    /** 方法的作用是把包装(加密)后的密钥解包装为原始的密钥
+
+    /**
+     * 方法的作用是把包装(加密)后的密钥解包装为原始的密钥
      * transformation  返回实施指定转换的对象。Cipher
      * wrappedKey 要拆开包装的密钥。
      * wrappedKeyAlgorithm- 与包裹密钥相关的算法
@@ -150,9 +152,9 @@ public enum CipherUtils {
      */
     public Key deWrap(String transformation, byte[] wrappedKey, String wrappedKeyAlgorithm, int wrappedKeyType) throws Exception {
         Cipher cipher = Cipher.getInstance(transformation);
-        SecretKey secretKey = new SecretKeySpec(algorithmbytes,algorithmname);
+        SecretKey secretKey = new SecretKeySpec(algorithmbytes, algorithmname);
         IvParameterSpec IV = new IvParameterSpec(pmspec.getBytes());
-        cipher.init(Cipher.UNWRAP_MODE,secretKey,IV);
-        return cipher.unwrap(wrappedKey,wrappedKeyAlgorithm,wrappedKeyType);
+        cipher.init(Cipher.UNWRAP_MODE, secretKey, IV);
+        return cipher.unwrap(wrappedKey, wrappedKeyAlgorithm, wrappedKeyType);
     }
 }

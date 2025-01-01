@@ -34,9 +34,8 @@ public class CipherInputStreamTest extends Application {
     }
 
     private static ImageView getImageView(Cipher initCipher) throws Exception {
-        InputStream inputStream = new FileInputStream("C:\\Users\\mydre\\Pictures\\testCipher\\en35.jpg");
+        InputStream inputStream = new FileInputStream("C:\\Users\\mydre\\Pictures\\testCipher\\tsss\\35.jpg");
         CipherInputStream cipherInputStream = new CipherInputStream(inputStream, initCipher);
-        //load the image
         Image image = new Image(cipherInputStream);
         return new ImageView(image);
     }
