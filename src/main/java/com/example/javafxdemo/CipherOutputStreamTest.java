@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+/*
+* C:\Users\mydre\IdeaProjects\knight\src\main\resources\animation
+* C:\Users\mydre\IdeaProjects\knight\src\main\resources\kingGame
+* C:\Users\mydre\IdeaProjects\knight\src\main\resources\monster_icon
+* */
 public class CipherOutputStreamTest {
 
     public static void main(String[] args) throws Exception {
-        cipherImageEncode(new File("C:\\Users\\mydre\\Pictures\\testCipher"));
+        cipherImageEncode(new File(""));
     }
 
     public static void cipherImageEncode(File fileDirectory) throws Exception {

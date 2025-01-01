@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -34,9 +34,9 @@ public class CipherInputStreamTest extends Application {
     }
 
     private static ImageView getImageView(Cipher initCipher) throws Exception {
-        InputStream inputStream = new FileInputStream("C:\\Users\\mydre\\Pictures\\testCipher\\tsss\\35.jpg");
-        CipherInputStream cipherInputStream = new CipherInputStream(inputStream, initCipher);
-        Image image = new Image(cipherInputStream);
+        InputStream inputStream = new FileInputStream("C:\\Users\\mydre\\IdeaProjects\\knight\\src\\main\\resources\\animation\\fire1\\attackRight\\Knight_attack4.png");
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(initCipher.doFinal(inputStream.readAllBytes()));
+        Image image = new Image(byteArrayInputStream);
         return new ImageView(image);
     }
 
