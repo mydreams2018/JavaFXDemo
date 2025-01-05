@@ -33,13 +33,13 @@ public class SteamImageEdit extends Application {
 
         Group root = new Group();
 
-        Image image0 = new Image(SteamImageEdit.class.getResourceAsStream("Background.png"));
+        Image image0 = new Image(SteamImageEdit.class.getResourceAsStream("con9.png"));
         ImageView imageView0 = new ImageView(image0);
-//        imageView0.setFitWidth(autoWidth);
-//        imageView0.setFitHeight(autoHeight);
+        imageView0.setFitWidth(autoWidth);
+        imageView0.setFitHeight(autoHeight);
 
-        Image image1 = new Image(SteamImageEdit.class.getResourceAsStream("knight_win.png"));
-        ImageView imageView1 = new ImageView(image1);
+//        Image image1 = new Image(SteamImageEdit.class.getResourceAsStream("knight_win.png"));
+//        ImageView imageView1 = new ImageView(image1);
 //        imageView1.setFitWidth(100);
 //        imageView1.setFitHeight(56);
 //
@@ -51,10 +51,10 @@ public class SteamImageEdit extends Application {
 //        imageView2.setFitHeight(14);
 //
 //
-        int lax = (autoWidth - 208) / 2;
-        int lay = (autoHeight - 136) / 2;
-        imageView1.setLayoutX(lax);
-        imageView1.setLayoutY(lay);
+//        int lax = (autoWidth - 208) / 2;
+//        int lay = (autoHeight - 136) / 2;
+//        imageView1.setLayoutX(lax);
+//        imageView1.setLayoutY(lay);
 
 
         VBox vBox = new VBox();
@@ -81,7 +81,7 @@ public class SteamImageEdit extends Application {
 //        label.setEffect(innerShadow);
 
 
-        root.getChildren().addAll(imageView0,imageView1,vBox);
+        root.getChildren().addAll(imageView0,vBox);
         Scene scene = new Scene(root,autoWidth,autoHeight);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

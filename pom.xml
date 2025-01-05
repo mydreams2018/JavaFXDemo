@@ -7,6 +7,7 @@
     <groupId>com.example</groupId>
     <artifactId>JavaFXDemo</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>JavaFXDemo</name>
 
     <properties>
@@ -45,6 +46,19 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
+        <!-- steamworks4j -->
+        <dependency>
+            <groupId>com.code-disaster.steamworks4j</groupId>
+            <artifactId>steamworks4j</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        <!-- steamworks4j-serve
+        <dependency>
+            <groupId>com.code-disaster.steamworks4j</groupId>
+            <artifactId>steamworks4j-server</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
@@ -53,33 +67,19 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
-            <!--      这里要注意本机配置的JDK版本环境变量要一致          -->
+                <!--      这里要注意本机配置的JDK版本环境变量要一致          -->
                 <configuration>
                     <source>21</source>
                     <target>21</target>
                     <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>com.example.javafxdemo/com.example.javafxdemo.HelloApplication</mainClass>
-                            <launcher>start</launcher>
-                            <compress>2</compress>
-                            <jlinkZipName>outputZip</jlinkZipName>
-                            <jlinkImageName>output</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
