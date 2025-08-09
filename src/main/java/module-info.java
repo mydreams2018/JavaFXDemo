@@ -7,4 +7,7 @@ open module com.example.javafxdemo {
     requires javafx.media;
     requires static lombok;
     requires steamworks4j;
+    requires com.fasterxml.jackson.annotation;
+    requires mirShare;
+    requires com.fasterxml.jackson.databind;
 }

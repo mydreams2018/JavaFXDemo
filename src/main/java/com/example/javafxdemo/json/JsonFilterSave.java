@@ -1,0 +1,112 @@
+package com.example.javafxdemo.json;
+
+import cn.kungreat.share.ImageObjectType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+
+public class JsonFilterSave {
+
+    public static final ObjectMapper MAP_JSON = new ObjectMapper();
+
+    static {
+        //遇到空对象时不会抛出异常而是序列化为{}
+        MAP_JSON.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        MAP_JSON.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        MAP_JSON.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    static String[] mirDirPath = new String[]{"/PeachGarden", "/Zhongzhou", "/Tucheng", "/Shacheng", "/MineHole1", "/MineHole2", "/MineHole3", "/MineHole4",
+            "/BoneDemonCave1", "/BoneDemonCave2", "/BoneDemonCave3", "/BoneDemonCave4", "/WomaTemple1", "/WomaTemple2", "/WomaTemple3", "/WomaTemple4", "/CentipedeCave1",
+            "/CentipedeCave2", "/CentipedeCave3", "/CentipedeCave4", "/Pighole1", "/Pighole2", "/Pighole3", "/Pighole4", "/ChiyueCanyon1", "/ChiyueCanyon2",
+            "/ChiyueCanyon3", "/ChiyueCanyon4", "/ZumaTemple1", "/ZumaTemple2", "/ZumaTemple3", "/ZumaTemple4", "/BullDemonCave1", "/BullDemonCave2", "/BullDemonCave3",
+            "/BullDemonCave4", "/boss1", "/boss2", "/boss3", "/boss4", "/Mengzhong"};
+
+    //服务端用清理不要的 背景图片json数据
+    public static void main(String[] args) throws IOException {
+        writeClientJsonSingle("F:/mir/mirBrother/Mengzhong");
+        writeServerJsonSingle("F:/mir/mirBrother/Mengzhong");
+    }
+
+    //服务端json
+    public static void writeServerJson(String mirDir) throws IOException {
+        for (String childDir : mirDirPath) {
+            File srcFile = new File(mirDir, childDir + "/area.json");
+            File tarFile = new File(mirDir, childDir + "/serverArea.json");
+            TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+            for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+                treeGameMap.setBackgroundImages(null);
+                List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+                if (imageObjectList != null) {
+                    //服务端不需要这个
+                    imageObjectList.removeIf(imo -> imo.getType() == ImageObjectType.NPC || imo.getType() == ImageObjectType.FIXED_ANIMATION);
+                }
+            }
+            Files.write(tarFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+        }
+    }
+
+    public static void writeServerJsonSingle(String mirDir) throws IOException {
+        File srcFile = new File(mirDir, "/area.json");
+        File tarFile = new File(mirDir, "/serverArea.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            treeGameMap.setBackgroundImages(null);
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                //服务端不需要这个
+                imageObjectList.removeIf(imo -> imo.getType() == ImageObjectType.NPC || imo.getType() == ImageObjectType.FIXED_ANIMATION);
+            }
+        }
+        Files.write(tarFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
+
+    //客户端json
+    public static void writeClientJson(String mirDir) throws IOException {
+        for (String childDir : mirDirPath) {
+            File srcFile = new File(mirDir, childDir + "/area.json");
+            File tarFile = new File(mirDir, childDir + "/clientArea.json");
+            TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+            for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+                List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+                if (imageObjectList != null) {
+                    imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER);
+                }
+                treeGameMap.getBackgroundImages().forEach(imageObject -> {
+                    File localFile = new File(mirDir, childDir + "/" + imageObject.getImagePath());
+                    if (localFile.exists()) {
+                        imageObject.setLocalImage(true);//使用本地的图片标识
+                    }
+                });
+            }
+            Files.write(tarFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+        }
+    }
+
+    //客户端json
+    public static void writeClientJsonSingle(String mirDir) throws IOException {
+        File srcFile = new File(mirDir, "area.json");
+        File tarFile = new File(mirDir, "clientArea.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER);
+            }
+            treeGameMap.getBackgroundImages().forEach(imageObject -> {
+                File localFile = new File(mirDir, imageObject.getImagePath());
+                if (localFile.exists()) {
+                    imageObject.setLocalImage(true);//使用本地的图片标识
+                }
+            });
+        }
+        Files.write(tarFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+}

@@ -59,6 +59,11 @@
             <version>1.9.0</version>
         </dependency>
         -->
+        <dependency>
+            <groupId>cn.kungreat</groupId>
+            <artifactId>mirShare</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
