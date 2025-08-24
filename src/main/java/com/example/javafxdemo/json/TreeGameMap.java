@@ -60,5 +60,7 @@ public class TreeGameMap {
         private List<String> baseAnimationName;
         private DirectionHistory currentDirectionHistory;
         private ActionHistory currentActionHistory;
+        private String maxActivityScope;
+        private String targetXY;
     }
 }

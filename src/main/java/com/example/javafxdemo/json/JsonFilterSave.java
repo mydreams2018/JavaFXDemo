@@ -22,16 +22,17 @@ public class JsonFilterSave {
         MAP_JSON.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    static String[] mirDirPath = new String[]{"/PeachGarden", "/Zhongzhou", "/Tucheng", "/Shacheng", "/MineHole1", "/MineHole2", "/MineHole3", "/MineHole4",
-            "/BoneDemonCave1", "/BoneDemonCave2", "/BoneDemonCave3", "/BoneDemonCave4", "/WomaTemple1", "/WomaTemple2", "/WomaTemple3", "/WomaTemple4", "/CentipedeCave1",
-            "/CentipedeCave2", "/CentipedeCave3", "/CentipedeCave4", "/Pighole1", "/Pighole2", "/Pighole3", "/Pighole4", "/ChiyueCanyon1", "/ChiyueCanyon2",
-            "/ChiyueCanyon3", "/ChiyueCanyon4", "/ZumaTemple1", "/ZumaTemple2", "/ZumaTemple3", "/ZumaTemple4", "/BullDemonCave1", "/BullDemonCave2", "/BullDemonCave3",
-            "/BullDemonCave4", "/boss1", "/boss2", "/boss3", "/boss4", "/Mengzhong"};
+    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "MineHole1", "MineHole2", "MineHole3", "MineHole4",
+            "MineHole5", "MineHole6", "MineHole7", "MineHole8", "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
+            "BlackCave1", "BlackCave2", "BlackCave3", "BlackCave4", "BullDemonCave1", "BullDemonCave2", "BullDemonCave3", "BullDemonCave4",
+            "WomaTemple1", "WomaTemple2", "WomaTemple3", "WomaTemple4", "CentipedeCave1", "CentipedeCave2", "CentipedeCave3", "CentipedeCave4", "CentipedeCave5", "CentipedeCave6",
+            "Pighole1", "Pighole2", "Pighole3", "Pighole4", "Pighole5", "Pighole6", "ZumaTemple1", "ZumaTemple2", "ZumaTemple3", "ZumaTemple4", "ZumaTemple5", "ZumaTemple6",
+            "OrcCave1", "OrcCave2", "OrcCave3", "OrcCave4", "ChiyueValley"};
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
-        writeClientJsonSingle("F:/mir/mirBrother/Mengzhong");
-        writeServerJsonSingle("F:/mir/mirBrother/Mengzhong");
+        writeClientJson("F:/mir/mirBrother");
+        writeServerJson("F:/mir/mirBrother");
     }
 
     //服务端json
