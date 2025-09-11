@@ -22,12 +22,13 @@ public class JsonFilterSave {
         MAP_JSON.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "MineHole1", "MineHole2", "MineHole3", "MineHole4",
-            "MineHole5", "MineHole6", "MineHole7", "MineHole8", "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
+    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley",
+            "MineHole1", "MineHole2", "MineHole3", "MineHole4", "MineHole5", "MineHole6", "MineHole7", "MineHole8",
+            "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
             "BlackCave1", "BlackCave2", "BlackCave3", "BlackCave4", "BullDemonCave1", "BullDemonCave2", "BullDemonCave3", "BullDemonCave4",
             "WomaTemple1", "WomaTemple2", "WomaTemple3", "WomaTemple4", "CentipedeCave1", "CentipedeCave2", "CentipedeCave3", "CentipedeCave4", "CentipedeCave5", "CentipedeCave6",
             "Pighole1", "Pighole2", "Pighole3", "Pighole4", "Pighole5", "Pighole6", "ZumaTemple1", "ZumaTemple2", "ZumaTemple3", "ZumaTemple4", "ZumaTemple5", "ZumaTemple6",
-            "OrcCave1", "OrcCave2", "OrcCave3", "OrcCave4", "ChiyueValley"};
+            "OrcCave1", "OrcCave2", "OrcCave3", "OrcCave4"};
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
