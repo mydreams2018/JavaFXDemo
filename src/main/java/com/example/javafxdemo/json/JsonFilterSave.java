@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Random;
 
 public class JsonFilterSave {
 
@@ -22,7 +23,7 @@ public class JsonFilterSave {
         MAP_JSON.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley",
+    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace",
             "MineHole1", "MineHole2", "MineHole3", "MineHole4", "MineHole5", "MineHole6", "MineHole7", "MineHole8",
             "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
             "BlackCave1", "BlackCave2", "BlackCave3", "BlackCave4", "BullDemonCave1", "BullDemonCave2", "BullDemonCave3", "BullDemonCave4",
@@ -32,8 +33,10 @@ public class JsonFilterSave {
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
-        writeClientJson("F:/mir/mirBrother");
-        writeServerJson("F:/mir/mirBrother");
+        //删除变异虫母
+//        deleteSrcMonsterSingle("F:/mir/mirBrother/Pighole5","043");
+//        writeClientJsonSingle("F:/mir/mirBrother/ImperialPalace");
+//        writeServerJsonSingle("F:/mir/mirBrother/Pighole5");
     }
 
     //服务端json
@@ -110,5 +113,20 @@ public class JsonFilterSave {
             });
         }
         Files.write(tarFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
+    //一半的几率删除指定的怪物(一些怪物类型生成的过多的情况)
+    public static void deleteSrcMonsterSingle(String mirDir, String monsterIndex) throws IOException {
+        Random random = new Random();
+        File srcFile = new File(mirDir, "area.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER
+                        && imageObject.getAnimationIndex().equals(monsterIndex) && random.nextBoolean());
+            }
+        }
+        Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
     }
 }
