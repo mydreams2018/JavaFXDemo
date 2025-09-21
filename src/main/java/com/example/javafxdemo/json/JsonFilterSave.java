@@ -33,10 +33,8 @@ public class JsonFilterSave {
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
-        //删除变异虫母
-//        deleteSrcMonsterSingle("F:/mir/mirBrother/Pighole5","043");
-//        writeClientJsonSingle("F:/mir/mirBrother/ImperialPalace");
-//        writeServerJsonSingle("F:/mir/mirBrother/Pighole5");
+        writeClientJson("F:/mir/mirBrother");
+        writeServerJson("F:/mir/mirBrother");
     }
 
     //服务端json
@@ -125,6 +123,20 @@ public class JsonFilterSave {
             if (imageObjectList != null) {
                 imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER
                         && imageObject.getAnimationIndex().equals(monsterIndex) && random.nextBoolean());
+            }
+        }
+        Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
+    //随机删除一半的怪
+    public static void deleteSrcMonsterSingle(String mirDir) throws IOException {
+        Random random = new Random();
+        File srcFile = new File(mirDir, "area.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER && random.nextBoolean());
             }
         }
         Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
