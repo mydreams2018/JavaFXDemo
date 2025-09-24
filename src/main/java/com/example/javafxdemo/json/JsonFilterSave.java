@@ -20,7 +20,7 @@ public class JsonFilterSave {
         //遇到空对象时不会抛出异常而是序列化为{}
         MAP_JSON.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         MAP_JSON.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        MAP_JSON.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        MAP_JSON.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     }
 
     static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace",
@@ -33,8 +33,8 @@ public class JsonFilterSave {
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
-        writeClientJson("F:/mir/mirBrother");
-        writeServerJson("F:/mir/mirBrother");
+        writeClientJsonSingle("F:/mir/mirBrother/Zhongzhou");
+//        writeServerJson("F:/mir/mirBrother");
     }
 
     //服务端json
