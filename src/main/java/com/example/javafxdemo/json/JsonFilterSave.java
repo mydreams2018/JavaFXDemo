@@ -23,7 +23,7 @@ public class JsonFilterSave {
         MAP_JSON.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace",
+    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace","ImperialPalacePK",
             "MineHole1", "MineHole2", "MineHole3", "MineHole4", "MineHole5", "MineHole6", "MineHole7", "MineHole8",
             "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
             "BlackCave1", "BlackCave2", "BlackCave3", "BlackCave4", "BullDemonCave1", "BullDemonCave2", "BullDemonCave3", "BullDemonCave4",
@@ -33,8 +33,8 @@ public class JsonFilterSave {
 
     //服务端用清理不要的 背景图片json数据
     public static void main(String[] args) throws IOException {
-        writeClientJsonSingle("F:/mir/mirBrother/Zhongzhou");
-//        writeServerJson("F:/mir/mirBrother");
+        writeClientJsonSingle("F:/mir/mirBrother/ImperialPalacePK");
+        writeServerJsonSingle("F:/mir/mirBrother/ImperialPalacePK");
     }
 
     //服务端json
@@ -114,7 +114,7 @@ public class JsonFilterSave {
     }
 
     //一半的几率删除指定的怪物(一些怪物类型生成的过多的情况)
-    public static void deleteSrcMonsterSingle(String mirDir, String monsterIndex) throws IOException {
+    public static void deleteSrcMonsterSingle(String mirDir, List<String> monsterIndex) throws IOException {
         Random random = new Random();
         File srcFile = new File(mirDir, "area.json");
         TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
@@ -122,7 +122,7 @@ public class JsonFilterSave {
             List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
             if (imageObjectList != null) {
                 imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER
-                        && imageObject.getAnimationIndex().equals(monsterIndex) && random.nextBoolean());
+                        && monsterIndex.contains(imageObject.getAnimationIndex()) && random.nextBoolean());
             }
         }
         Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
