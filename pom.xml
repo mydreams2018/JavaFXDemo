@@ -6,15 +6,16 @@
 
     <groupId>com.example</groupId>
     <artifactId>JavaFXDemo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>JavaFXDemo</name>
 
     <properties>
-        <javafx.version>21.0.8</javafx.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <javafx.version>25.0.1</javafx.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombokVersion>1.18.42</lombokVersion>
     </properties>
 
     <dependencies>
@@ -41,7 +42,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>${lombokVersion}</version>
             <!--			在编译、测试时有效，但是在运行时无效。 -->
             <scope>provided</scope>
             <optional>true</optional>
@@ -71,17 +72,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <!--      这里要注意本机配置的JDK版本环境变量要一致          -->
+                <version>3.14.1</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>25</source>
+                    <target>25</target>
                     <encoding>UTF-8</encoding>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.30</version>
+                            <version>${lombokVersion}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
