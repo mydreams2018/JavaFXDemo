@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class JsonFilterSave {
 
@@ -23,7 +24,7 @@ public class JsonFilterSave {
         MAP_JSON.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace","ImperialPalacePK",
+    static String[] mirDirPath = new String[]{"PeachGarden", "Zhongzhou", "Tucheng", "Shacheng", "Mengzhong", "ChiyueValley", "ImperialPalace","ImperialPalacePK","SpecialMap",
             "MineHole1", "MineHole2", "MineHole3", "MineHole4", "MineHole5", "MineHole6", "MineHole7", "MineHole8",
             "BoneDemonCave1", "BoneDemonCave2", "BoneDemonCave3", "BoneDemonCave4", "BoneDemonCave5", "BoneDemonCave6",
             "BlackCave1", "BlackCave2", "BlackCave3", "BlackCave4", "BullDemonCave1", "BullDemonCave2", "BullDemonCave3", "BullDemonCave4",
@@ -32,9 +33,9 @@ public class JsonFilterSave {
             "OrcCave1", "OrcCave2", "OrcCave3", "OrcCave4"};
 
     //服务端用清理不要的 背景图片json数据
-    public static void main(String[] args) throws IOException {
-        writeClientJsonSingle("F:/mir/mirBrother/ImperialPalacePK");
-        writeServerJsonSingle("F:/mir/mirBrother/ImperialPalacePK");
+    public static void main(String[] args) throws Exception {
+        writeClientJsonSingle("F:/mir/mirBrother/SpecialMap");
+        writeServerJsonSingle("F:/mir/mirBrother/SpecialMap");
     }
 
     //服务端json
@@ -137,6 +138,34 @@ public class JsonFilterSave {
             List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
             if (imageObjectList != null) {
                 imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER && random.nextBoolean());
+            }
+        }
+        Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
+    //删除地图内所有的怪物
+    public static void deleteSrcMonsterAll(String mirDir) throws Exception {
+        File srcFile = new File(mirDir, "area.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER);
+            }
+        }
+        Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
+    //ID随机再生成防重 copy 地图时使用
+    public static void randomUUIDAll(String mirDir) throws Exception {
+        File srcFile = new File(mirDir, "area.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        treeArea.setId(UUID.randomUUID().toString());
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            treeGameMap.setId(UUID.randomUUID().toString());
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.forEach(imageObject -> imageObject.setId(UUID.randomUUID().toString()));
             }
         }
         Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
