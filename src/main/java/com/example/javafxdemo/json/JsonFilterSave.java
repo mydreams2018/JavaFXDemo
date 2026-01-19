@@ -129,6 +129,19 @@ public class JsonFilterSave {
         Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
     }
 
+    //全删除指定的怪
+    public static void deleteSrcMonsterFixed(String mirDir, List<String> monsterIndex) throws IOException {
+        File srcFile = new File(mirDir, "area.json");
+        TreeArea treeArea = MAP_JSON.readValue(srcFile, TreeArea.class);
+        for (TreeGameMap treeGameMap : treeArea.getChildrenMap()) {
+            List<TreeGameMap.ImageObject> imageObjectList = treeGameMap.getImageObjectList();
+            if (imageObjectList != null) {
+                imageObjectList.removeIf(imageObject -> imageObject.getType() == ImageObjectType.MONSTER && monsterIndex.contains(imageObject.getAnimationIndex()));
+            }
+        }
+        Files.write(srcFile.toPath(), MAP_JSON.writeValueAsBytes(treeArea));
+    }
+
     //随机删除一半的怪
     public static void deleteSrcMonsterSingle(String mirDir) throws IOException {
         Random random = new Random();
